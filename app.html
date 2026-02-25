@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leverage AI — Master Claude for Business</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #e8c547;
+    --accent2: #4ecca3;
+    --text: #f0f0f8;
+    --muted: #6b6b8a;
+    --danger: #ff6b6b;
+    --free: #4ecca3;
+    --premium: #e8c547;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* Background texture */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 80% 50% at 20% 0%, rgba(232,197,71,0.07) 0%, transparent 60%),
+radial-gradient(ellipse 60% 40% at 80% 100%, rgba(78,204,163,0.05) 0%, transparent 60%);
+pointer-events: none;
+z-index: 0;
+}
+
+/* LAYOUT */
+.app {
+display: grid;
+grid-template-columns: 260px 1fr;
+min-height: 100vh;
+position: relative;
+z-index: 1;
+}
+
+/* SIDEBAR */
+.sidebar {
+background: var(–surface);
+border-right: 1px solid var(–border);
+display: flex;
+flex-direction: column;
+padding: 0;
+position: sticky;
+top: 0;
+height: 100vh;
+overflow-y: auto;
+}
+
+.logo {
+padding: 28px 24px 24px;
+border-bottom: 1px solid var(–border);
+}
+
+.logo-mark {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 900;
+color: var(–text);
+letter-spacing: -0.5px;
+}
+
+.logo-mark span {
+color: var(–accent);
+}
+
+.logo-sub {
+font-size: 10px;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 2px;
+margin-top: 2px;
+}
+
+.user-card {
+padding: 20px 24px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.avatar {
+width: 38px;
+height: 38px;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 14px;
+color: var(–bg);
+flex-shrink: 0;
+}
+
+.user-info .name { font-size: 14px; font-weight: 600; }
+.user-info .plan {
+font-size: 10px;
+color: var(–accent);
+text-transform: uppercase;
+letter-spacing: 1.5px;
+font-weight: 600;
+}
+
+.streak-pill {
+margin-left: auto;
+background: rgba(232,197,71,0.12);
+border: 1px solid rgba(232,197,71,0.25);
+color: var(–accent);
+font-size: 11px;
+font-weight: 600;
+padding: 4px 10px;
+border-radius: 20px;
+display: flex;
+align-items: center;
+gap: 4px;
+white-space: nowrap;
+}
+
+.nav {
+flex: 1;
+padding: 16px 12px;
+}
+
+.nav-label {
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(–muted);
+padding: 0 12px;
+margin-bottom: 8px;
+margin-top: 16px;
+}
+
+.nav-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 8px;
+cursor: pointer;
+font-size: 14px;
+color: var(–muted);
+transition: all 0.2s;
+margin-bottom: 2px;
+}
+
+.nav-item:hover { background: var(–surface2); color: var(–text); }
+.nav-item.active { background: rgba(232,197,71,0.1); color: var(–accent); }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+.nav-item .badge {
+margin-left: auto;
+background: var(–accent);
+color: var(–bg);
+font-size: 10px;
+font-weight: 700;
+padding: 2px 7px;
+border-radius: 10px;
+}
+
+.upgrade-card {
+margin: 16px;
+padding: 16px;
+background: linear-gradient(135deg, rgba(232,197,71,0.12), rgba(78,204,163,0.08));
+border: 1px solid rgba(232,197,71,0.2);
+border-radius: 12px;
+}
+
+.upgrade-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.upgrade-card p { font-size: 11px; color: var(–muted); margin-bottom: 12px; line-height: 1.5; }
+.upgrade-btn {
+width: 100%;
+padding: 9px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 8px;
+font-size: 12px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+letter-spacing: 0.3px;
+transition: opacity 0.2s;
+}
+.upgrade-btn:hover { opacity: 0.85; }
+
+/* MAIN */
+.main {
+display: flex;
+flex-direction: column;
+overflow: hidden;
+}
+
+/* TOP BAR */
+.topbar {
+padding: 20px 36px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-between;
+background: var(–bg);
+}
+
+.page-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 26px;
+font-weight: 700;
+}
+
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+
+.xp-bar-wrap {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 12px;
+color: var(–muted);
+}
+
+.xp-bar {
+width: 120px;
+height: 6px;
+background: var(–surface2);
+border-radius: 3px;
+overflow: hidden;
+}
+
+.xp-fill {
+height: 100%;
+width: 62%;
+background: linear-gradient(90deg, var(–accent2), var(–accent));
+border-radius: 3px;
+animation: fillBar 1s ease-out;
+}
+
+@keyframes fillBar { from { width: 0; } }
+
+.notif-btn {
+width: 36px; height: 36px;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer;
+font-size: 16px;
+position: relative;
+}
+
+.notif-dot {
+position: absolute;
+top: 6px; right: 6px;
+width: 7px; height: 7px;
+background: var(–danger);
+border-radius: 50%;
+}
+
+/* CONTENT */
+.content {
+padding: 32px 36px;
+overflow-y: auto;
+flex: 1;
+}
+
+/* TABS */
+.tabs {
+display: flex;
+gap: 4px;
+margin-bottom: 32px;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 4px;
+width: fit-content;
+}
+
+.tab {
+padding: 8px 20px;
+border-radius: 7px;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+color: var(–muted);
+transition: all 0.2s;
+border: none;
+background: none;
+font-family: ‘DM Sans’, sans-serif;
+}
+
+.tab.active {
+background: var(–surface2);
+color: var(–text);
+border: 1px solid var(–border);
+}
+
+/* STATS ROW */
+.stats-row {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 16px;
+margin-bottom: 32px;
+}
+
+.stat-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 14px;
+padding: 20px;
+position: relative;
+overflow: hidden;
+transition: border-color 0.2s;
+}
+
+.stat-card:hover { border-color: rgba(232,197,71,0.3); }
+
+.stat-card::after {
+content: attr(data-icon);
+position: absolute;
+right: 16px;
+top: 16px;
+font-size: 22px;
+opacity: 0.4;
+}
+
+.stat-label { font-size: 11px; color: var(–muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.stat-value { font-family: ‘Playfair Display’, serif; font-size: 32px; font-weight: 700; line-height: 1; }
+.stat-value.gold { color: var(–accent); }
+.stat-value.teal { color: var(–accent2); }
+.stat-sub { font-size: 11px; color: var(–muted); margin-top: 6px; }
+
+/* SECTION HEADER */
+.section-header {
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+margin-bottom: 20px;
+}
+
+.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+font-weight: 700;
+}
+
+.see-all {
+font-size: 12px;
+color: var(–accent);
+cursor: pointer;
+text-decoration: none;
+font-weight: 500;
+}
+
+/* COURSE CARDS */
+.courses-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 16px;
+margin-bottom: 36px;
+}
+
+.course-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 16px;
+overflow: hidden;
+cursor: pointer;
+transition: all 0.25s;
+position: relative;
+}
+
+.course-card:hover {
+border-color: rgba(232,197,71,0.35);
+transform: translateY(-2px);
+box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.course-card.locked { opacity: 0.6; }
+.course-card.locked:hover { transform: none; }
+
+.course-thumb {
+height: 120px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 44px;
+position: relative;
+}
+
+.c1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+.c2 { background: linear-gradient(135deg, #1a2e1a, #162e1e); }
+.c3 { background: linear-gradient(135deg, #2e1a1a, #2e1616); }
+.c4 { background: linear-gradient(135deg, #1a1a2e, #231a2e); }
+.c5 { background: linear-gradient(135deg, #2e2a1a, #2e241a); }
+.c6 { background: linear-gradient(135deg, #1a2a2e, #162a2e); }
+
+.course-tag {
+position: absolute;
+top: 12px;
+left: 12px;
+font-size: 10px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 1px;
+padding: 3px 8px;
+border-radius: 4px;
+}
+
+.tag-free { background: rgba(78,204,163,0.2); color: var(–free); border: 1px solid rgba(78,204,163,0.3); }
+.tag-premium { background: rgba(232,197,71,0.15); color: var(–premium); border: 1px solid rgba(232,197,71,0.25); }
+
+.lock-icon {
+position: absolute;
+top: 12px;
+right: 12px;
+font-size: 14px;
+opacity: 0.6;
+}
+
+.course-body { padding: 16px; }
+.course-level { font-size: 10px; color: var(–muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.course-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.35; }
+.course-meta { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(–muted); }
+
+.progress-wrap { margin-top: 12px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 10px; color: var(–muted); margin-bottom: 5px; }
+.progress-bar { height: 4px; background: var(–surface2); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(–accent2), var(–accent)); }
+
+/* ACTIVE LESSON */
+.active-lesson {
+background: var(–surface);
+border: 1px solid rgba(232,197,71,0.25);
+border-radius: 20px;
+padding: 28px;
+margin-bottom: 32px;
+position: relative;
+overflow: hidden;
+}
+
+.active-lesson::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 3px;
+background: linear-gradient(90deg, var(–accent2), var(–accent));
+}
+
+.lesson-eyebrow {
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(–accent);
+font-weight: 600;
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.pulse {
+width: 8px; height: 8px;
+background: var(–accent2);
+border-radius: 50%;
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+0%, 100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.lesson-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+margin-bottom: 8px;
+}
+
+.lesson-desc { font-size: 14px; color: var(–muted); margin-bottom: 20px; line-height: 1.6; max-width: 600px; }
+
+.lesson-actions { display: flex; align-items: center; gap: 12px; }
+
+.btn-primary {
+padding: 11px 24px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 10px;
+font-size: 13px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: opacity 0.2s;
+display: flex; align-items: center; gap: 8px;
+}
+
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-ghost {
+padding: 11px 20px;
+background: none;
+color: var(–muted);
+border: 1px solid var(–border);
+border-radius: 10px;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+}
+
+.btn-ghost:hover { border-color: var(–text); color: var(–text); }
+
+.lesson-xp {
+margin-left: auto;
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 13px;
+color: var(–accent);
+font-weight: 600;
+}
+
+/* LESSON SANDBOX VIEW */
+.sandbox-view {
+display: none;
+flex-direction: column;
+gap: 0;
+}
+
+.sandbox-view.visible { display: flex; }
+
+.lesson-panel {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 20px;
+overflow: hidden;
+margin-bottom: 20px;
+}
+
+.panel-header {
+padding: 16px 24px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.panel-title {
+font-size: 13px;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.step-badge {
+background: var(–surface2);
+border: 1px solid var(–border);
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 4px;
+color: var(–muted);
+}
+
+.panel-body { padding: 24px; }
+
+.scenario-box {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 20px;
+font-size: 14px;
+line-height: 1.7;
+color: var(–text);
+margin-bottom: 16px;
+border-left: 3px solid var(–accent2);
+}
+
+.scenario-label {
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+color: var(–accent2);
+font-weight: 600;
+margin-bottom: 8px;
+}
+
+.concept-text { font-size: 14px; line-height: 1.7; color: rgba(240,240,248,0.8); margin-bottom: 16px; }
+
+.tip-box {
+background: rgba(232,197,71,0.06);
+border: 1px solid rgba(232,197,71,0.15);
+border-radius: 10px;
+padding: 14px 16px;
+font-size: 13px;
+color: rgba(232,197,71,0.85);
+line-height: 1.6;
+display: flex;
+gap: 10px;
+}
+
+/* PROMPT SANDBOX */
+.sandbox-area {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 16px;
+}
+
+.sandbox-input-wrap {
+display: flex;
+flex-direction: column;
+}
+
+.sandbox-label {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+color: var(–muted);
+margin-bottom: 8px;
+font-weight: 500;
+}
+
+.prompt-textarea {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 16px;
+font-family: ‘DM Mono’, monospace;
+font-size: 13px;
+color: var(–text);
+resize: none;
+height: 180px;
+outline: none;
+transition: border-color 0.2s;
+line-height: 1.6;
+}
+
+.prompt-textarea:focus { border-color: rgba(232,197,71,0.4); }
+.prompt-textarea::placeholder { color: var(–muted); }
+
+.send-btn {
+margin-top: 10px;
+padding: 11px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 10px;
+font-size: 13px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: opacity 0.2s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+
+.send-btn:hover { opacity: 0.85; }
+
+.response-wrap {
+display: flex;
+flex-direction: column;
+}
+
+.response-box {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 16px;
+font-size: 13px;
+color: rgba(240,240,248,0.75);
+height: 180px;
+overflow-y: auto;
+line-height: 1.7;
+font-family: ‘DM Sans’, sans-serif;
+position: relative;
+}
+
+.response-placeholder {
+color: var(–muted);
+font-style: italic;
+}
+
+.score-row {
+margin-top: 10px;
+display: flex;
+gap: 8px;
+}
+
+.score-pill {
+display: flex;
+align-items: center;
+gap: 5px;
+font-size: 11px;
+padding: 5px 12px;
+border-radius: 6px;
+font-weight: 600;
+}
+
+.score-great { background: rgba(78,204,163,0.12); color: var(–accent2); border: 1px solid rgba(78,204,163,0.2); }
+.score-ok { background: rgba(232,197,71,0.1); color: var(–accent); border: 1px solid rgba(232,197,71,0.2); }
+
+.typing { display: inline-block; }
+.typing::after {
+content: ‘▋’;
+animation: blink 1s step-end infinite;
+color: var(–accent);
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* BACK BTN */
+.back-btn {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+font-size: 13px;
+color: var(–muted);
+cursor: pointer;
+margin-bottom: 24px;
+padding: 0;
+background: none;
+border: none;
+font-family: ‘DM Sans’, sans-serif;
+transition: color 0.2s;
+}
+.back-btn:hover { color: var(–text); }
+
+/* ANIMATIONS */
+.fade-in {
+animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } }
+
+.card-animate {
+animation: cardIn 0.5s ease-out both;
+}
+@keyframes cardIn { from { opacity: 0; transform: translateY(12px); } }
+
+.card-animate:nth-child(1) { animation-delay: 0.05s; }
+.card-animate:nth-child(2) { animation-delay: 0.1s; }
+.card-animate:nth-child(3) { animation-delay: 0.15s; }
+.card-animate:nth-child(4) { animation-delay: 0.2s; }
+
+/* PROMPT OF DAY */
+.potd {
+background: linear-gradient(135deg, rgba(78,204,163,0.06), rgba(232,197,71,0.04));
+border: 1px solid rgba(78,204,163,0.15);
+border-radius: 16px;
+padding: 24px;
+display: flex;
+align-items: flex-start;
+gap: 20px;
+}
+
+.potd-icon { font-size: 32px; flex-shrink: 0; }
+
+.potd-content h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(–accent2); }
+.potd-prompt {
+font-family: ‘DM Mono’, monospace;
+font-size: 12px;
+color: rgba(240,240,248,0.7);
+line-height: 1.7;
+background: var(–surface2);
+border-radius: 8px;
+padding: 12px 14px;
+margin-top: 8px;
+border: 1px solid var(–border);
+}
+
+.copy-btn {
+margin-top: 10px;
+padding: 7px 14px;
+background: none;
+border: 1px solid rgba(78,204,163,0.3);
+color: var(–accent2);
+border-radius: 7px;
+font-size: 11px;
+font-weight: 600;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+}
+.copy-btn:hover { background: rgba(78,204,163,0.08); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(–border); border-radius: 3px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+.app { grid-template-columns: 1fr; }
+.sidebar { display: none; }
+.stats-row { grid-template-columns: repeat(2, 1fr); }
+.courses-grid { grid-template-columns: repeat(2, 1fr); }
+.sandbox-area { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">Leverage<span>AI</span></div>
+      <div class="logo-sub">Master Claude for Business</div>
+    </div>
+
+```
+<div class="user-card">
+  <div class="avatar">TM</div>
+  <div class="user-info">
+    <div class="name">Thabo M.</div>
+    <div class="plan">Free Plan</div>
+  </div>
+  <div class="streak-pill">🔥 7</div>
+</div>
+
+<nav class="nav">
+  <div class="nav-label">Learn</div>
+  <div class="nav-item active" onclick="showDashboard()">
+    <span class="icon">⚡</span> Dashboard
+  </div>
+  <div class="nav-item" onclick="showLesson()">
+    <span class="icon">📚</span> My Courses
+    <span class="badge">2</span>
+  </div>
+  <div class="nav-item">
+    <span class="icon">🗂️</span> Prompt Library
+  </div>
+
+  <div class="nav-label">Industry</div>
+  <div class="nav-item">
+    <span class="icon">💼</span> Financial Services
+  </div>
+  <div class="nav-item">
+    <span class="icon">⚖️</span> Legal
+    <span class="badge" style="background:var(--muted);color:var(--bg)">🔒</span>
+  </div>
+  <div class="nav-item">
+    <span class="icon">📣</span> Marketing
+    <span class="badge" style="background:var(--muted);color:var(--bg)">🔒</span>
+  </div>
+
+  <div class="nav-label">Account</div>
+  <div class="nav-item">
+    <span class="icon">🏆</span> Achievements
+  </div>
+  <div class="nav-item">
+    <span class="icon">⚙️</span> Settings
+  </div>
+</nav>
+
+<div class="upgrade-card">
+  <h4>Go Premium</h4>
+  <p>Unlock industry modules, advanced techniques & your prompt library.</p>
+  <button class="upgrade-btn">Upgrade — R199/mo</button>
+</div>
+```
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+
+  <main class="main">
+    <div class="topbar">
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="topbar-right">
+        <div class="xp-bar-wrap">
+          <span>Level 3</span>
+          <div class="xp-bar"><div class="xp-fill"></div></div>
+          <span style="color: var(--accent)">620 XP</span>
+        </div>
+        <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      </div>
+    </div>
+
+```
+<!-- DASHBOARD VIEW -->
+<div class="content" id="dashboard-view">
+
+  <!-- Active lesson CTA -->
+  <div class="active-lesson fade-in">
+    <div class="lesson-eyebrow"><div class="pulse"></div> Continue Learning</div>
+    <div class="lesson-title">Giving Claude Context & Role</div>
+    <div class="lesson-desc">Learn how telling Claude who it is and what context it's operating in dramatically improves output quality for business tasks.</div>
+    <div class="lesson-actions">
+      <button class="btn-primary" onclick="showLesson()">▶ Resume Lesson</button>
+      <button class="btn-ghost">Preview</button>
+      <div class="lesson-xp">✦ +50 XP on completion</div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card card-animate" data-icon="⚡">
+      <div class="stat-label">Lessons Done</div>
+      <div class="stat-value gold">12</div>
+      <div class="stat-sub">3 this week</div>
+    </div>
+    <div class="stat-card card-animate" data-icon="🔥">
+      <div class="stat-label">Day Streak</div>
+      <div class="stat-value teal">7</div>
+      <div class="stat-sub">Personal best!</div>
+    </div>
+    <div class="stat-card card-animate" data-icon="✦">
+      <div class="stat-label">Total XP</div>
+      <div class="stat-value gold">620</div>
+      <div class="stat-sub">380 to Level 4</div>
+    </div>
+    <div class="stat-card card-animate" data-icon="🏆">
+      <div class="stat-label">Badges Earned</div>
+      <div class="stat-value teal">4</div>
+      <div class="stat-sub">2 available</div>
+    </div>
+  </div>
+
+  <!-- Courses -->
+  <div class="section-header">
+    <div class="section-title">Your Learning Path</div>
+    <a class="see-all" onclick="showLesson()">View all →</a>
+  </div>
+
+  <div class="courses-grid">
+    <!-- Course 1 -->
+    <div class="course-card card-animate" onclick="showLesson()">
+      <div class="course-thumb c1">
+        🧠
+        <div class="course-tag tag-free">Free</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Level 1 · Foundations</div>
+        <div class="course-name">What Claude Actually Is</div>
+        <div class="course-meta">⏱ 5 min · 5 lessons</div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Progress</span><span style="color:var(--accent2)">100%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course 2 -->
+    <div class="course-card card-animate" onclick="showLesson()">
+      <div class="course-thumb c2">
+        ✍️
+        <div class="course-tag tag-free">Free</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Level 2 · Core Skills</div>
+        <div class="course-name">Writing Effective Prompts</div>
+        <div class="course-meta">⏱ 15 min · 6 lessons</div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Progress</span><span style="color:var(--accent)">67%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course 3 -->
+    <div class="course-card card-animate" onclick="showLesson()">
+      <div class="course-thumb c3">
+        🔗
+        <div class="course-tag tag-free">Free</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Level 2 · Core Skills</div>
+        <div class="course-name">Context & Role Prompting</div>
+        <div class="course-meta">⏱ 15 min · 5 lessons</div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Progress</span><span>20%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course 4 - Premium -->
+    <div class="course-card locked card-animate">
+      <div class="course-thumb c4">
+        ⛓️
+        <div class="course-tag tag-premium">Premium</div>
+        <div class="lock-icon">🔒</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Level 3 · Advanced</div>
+        <div class="course-name">Chain-of-Thought Prompting</div>
+        <div class="course-meta">⏱ 30 min · 8 lessons</div>
+      </div>
+    </div>
+
+    <!-- Course 5 - Premium -->
+    <div class="course-card locked card-animate">
+      <div class="course-thumb c5">
+        💼
+        <div class="course-tag tag-premium">Premium</div>
+        <div class="lock-icon">🔒</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Industry · Financial Services</div>
+        <div class="course-name">Analysing Financial Statements</div>
+        <div class="course-meta">⏱ 30 min · 7 lessons</div>
+      </div>
+    </div>
+
+    <!-- Course 6 - Premium -->
+    <div class="course-card locked card-animate">
+      <div class="course-thumb c6">
+        📣
+        <div class="course-tag tag-premium">Premium</div>
+        <div class="lock-icon">🔒</div>
+      </div>
+      <div class="course-body">
+        <div class="course-level">Industry · Marketing</div>
+        <div class="course-name">Campaign Ideation at Scale</div>
+        <div class="course-meta">⏱ 30 min · 6 lessons</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt of the Day -->
+  <div class="section-header">
+    <div class="section-title">Prompt of the Day</div>
+  </div>
+
+  <div class="potd">
+    <div class="potd-icon">💡</div>
+    <div class="potd-content">
+      <h3>Financial Services · Summarisation</h3>
+      <div class="potd-prompt">You are a senior financial analyst at a JSE-listed asset manager. I'll paste a company's annual report below. Summarise the key financial highlights in 5 bullet points, flag any risks, and give a one-line investment signal (Bullish / Neutral / Bearish) with a brief reason.<br><br>[PASTE REPORT HERE]</div>
+      <button class="copy-btn" onclick="this.textContent='✓ Copied!'">Copy Prompt</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- LESSON VIEW (hidden by default) -->
+<div class="content" id="lesson-view" style="display:none">
+
+  <button class="back-btn" onclick="showDashboard()">← Back to Dashboard</button>
+
+  <!-- Lesson steps -->
+  <div class="lesson-panel fade-in">
+    <div class="panel-header">
+      <div class="panel-title">
+        🔗 Context & Role Prompting
+        <span class="step-badge">Step 2 of 5</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted)">⏱ ~4 min left</div>
+    </div>
+    <div class="panel-body">
+      <p class="concept-text">
+        One of the most powerful yet overlooked techniques is telling Claude <strong>who it is</strong> before asking it anything. Claude responds differently depending on the role and context you give it. A generic prompt gets a generic answer — a contextualised prompt gets expert-level output.
+      </p>
+
+      <div class="scenario-box">
+        <div class="scenario-label">📋 Business Scenario</div>
+        You're a marketing manager at a Cape Town-based fintech startup. You need to write a cold email to a potential enterprise client (a large retail bank) introducing your payment solution. You have 10 minutes.
+      </div>
+
+      <div class="tip-box">
+        <span>💡</span>
+        <span><strong>Technique:</strong> Start your prompt with "You are a [role] with [experience/context]…" before giving your actual task. Watch how the output changes compared to just asking directly.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sandbox -->
+  <div class="lesson-panel fade-in">
+    <div class="panel-header">
+      <div class="panel-title">🧪 Try It — Live Sandbox</div>
+      <div style="font-size:11px;color:var(--muted)">Your prompt goes to Claude in real-time</div>
+    </div>
+    <div class="panel-body">
+      <div class="sandbox-area">
+        <div class="sandbox-input-wrap">
+          <div class="sandbox-label">Your Prompt</div>
+          <textarea class="prompt-textarea" id="user-prompt" placeholder="Try starting with: 'You are a senior B2B sales strategist with 10 years experience in African fintech…'"></textarea>
+          <button class="send-btn" onclick="simulateResponse()">
+            ▶ Send to Claude
+          </button>
+          <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px;">⌘ Ctrl+Enter to send</div>
+        </div>
+        <div class="response-wrap">
+          <div class="sandbox-label">Claude's Response</div>
+          <div class="response-box" id="response-box">
+            <span class="response-placeholder">Claude's response will appear here after you send your prompt…</span>
+          </div>
+          <div class="score-row" id="score-row" style="display:none">
+            <div class="score-pill score-great">✦ Role Used</div>
+            <div class="score-pill score-great">✦ Context Set</div>
+            <div class="score-pill score-ok">△ Add specifics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next step -->
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="btn-primary" onclick="alert('🎉 +50 XP earned! Moving to next lesson…')">
+      ✓ Mark Complete &amp; Continue
+    </button>
+    <button class="btn-ghost" onclick="showModelAnswer()">See Model Answer</button>
+    <div class="lesson-xp" style="margin-left:auto">✦ +50 XP</div>
+  </div>
+
+</div>
+```
+
+  </main>
+</div>
+
+<script>
+  const API = 'https://web-production-a8715f.up.railway.app';
+
+  // ── Load user from backend ────────────────────────────────────────
+  async function loadUser() {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+    try {
+      const res = await fetch(`${API}/api/user/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) return;
+      const user = await res.json();
+      const initials = (user.first_name[0] + (user.last_name?.[0] || '')).toUpperCase();
+      document.querySelector('.avatar').textContent = initials;
+      document.querySelector('.user-info .name').textContent = user.first_name + ' ' + (user.last_name || '');
+      document.querySelector('.user-info .plan').textContent =
+        user.subscription?.plan === 'free' ? 'Free Plan' : '⭐ Premium';
+    } catch(e) {}
+  }
+
+  // ── Logout ────────────────────────────────────────────────────────
+  function logout() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
+    window.location.href = 'leverage-ai-onboarding.html';
+  }
+
+  loadUser();
+
+  // Ctrl+Enter to send
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      const lessonView = document.getElementById('lesson-view');
+      if (lessonView.style.display !== 'none') simulateResponse();
+    }
+  });
+
+  // Model answer modal
+  function showModelAnswer() {
+    const existing = document.getElementById('model-modal');
+    if (existing) { existing.remove(); return; }
+
+    const modal = document.createElement('div');
+    modal.id = 'model-modal';
+    modal.style.cssText = `
+      position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;
+      display:flex;align-items:center;justify-content:center;padding:24px;
+    `;
+    modal.innerHTML = `
+      <div style="background:#12121a;border:1px solid #2a2a3d;border-radius:20px;max-width:600px;width:100%;padding:32px;position:relative;">
+        <button onclick="document.getElementById('model-modal').remove()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b6b8a;font-size:20px;cursor:pointer;">✕</button>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e8c547;font-weight:600;margin-bottom:12px;">⭐ Model Answer</div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:16px;">The Ideal Prompt for This Scenario</div>
+        <div style="background:#1a1a26;border:1px solid #2a2a3d;border-left:3px solid #4ecca3;border-radius:10px;padding:16px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;color:rgba(240,240,248,0.85);margin-bottom:16px;">
+You are a senior B2B sales strategist with 12 years of experience selling enterprise SaaS and fintech solutions to South African retail banks. You write concise, confident cold emails that focus on business outcomes, not product features.<br><br>
+Write a cold email from a Cape Town-based fintech startup to a decision-maker at a large SA retail bank. The startup offers a payment processing API that reduces integration time to under 2 weeks and cuts transaction costs by up to 30%.<br><br>
+The email should:<br>
+- Be under 150 words<br>
+- Lead with a pain point the bank likely faces<br>
+- Include one specific proof point<br>
+- End with a low-friction CTA<br>
+- Sound human, not salesy
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="score-pill score-great" style="font-size:11px;padding:5px 12px;">✦ Role Defined</div>
+          <div class="score-pill score-great" style="font-size:11px;padding:5px 12px;">✦ Context Set</div>
+          <div class="score-pill score-great" style="font-size:11px;padding:5px 12px;">✦ Task Clear</div>
+          <div class="score-pill score-great" style="font-size:11px;padding:5px 12px;">✦ Format Given</div>
+          <div class="score-pill score-great" style="margin-left:auto;font-size:11px;padding:5px 12px;">4/4 criteria</div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  }
+
+  function showDashboard() {
+    document.getElementById('dashboard-view').style.display = 'block';
+    document.getElementById('lesson-view').style.display = 'none';
+    document.getElementById('page-title').textContent = 'Dashboard';
+    document.querySelectorAll('.nav-item').forEach((el, i) => {
+      el.classList.toggle('active', i === 0);
+    });
+  }
+
+  function showLesson() {
+    document.getElementById('dashboard-view').style.display = 'none';
+    document.getElementById('lesson-view').style.display = 'block';
+    document.getElementById('page-title').textContent = 'Context & Role Prompting';
+    document.querySelectorAll('.nav-item').forEach((el, i) => {
+      el.classList.toggle('active', i === 1);
+    });
+  }
+
+  // ── Prompt quality scorer ──────────────────────────────────────────
+  function scorePrompt(prompt) {
+    const p = prompt.toLowerCase();
+    const checks = [
+      {
+        id: 'role',
+        label: '✦ Role Defined',
+        good: 'score-great',
+        bad: 'score-ok',
+        pass: /you are|act as|as a |as an /.test(p),
+        passMsg: '✦ Role Defined',
+        failMsg: '△ Add a role',
+      },
+      {
+        id: 'context',
+        label: '✦ Context Set',
+        good: 'score-great',
+        bad: 'score-ok',
+        pass: p.length > 80,
+        passMsg: '✦ Context Set',
+        failMsg: '△ More context',
+      },
+      {
+        id: 'specific',
+        label: '✦ Specific Task',
+        good: 'score-great',
+        bad: 'score-ok',
+        pass: /write|draft|summarise|summarize|analyse|analyze|create|list|explain|review/.test(p),
+        passMsg: '✦ Task Clear',
+        failMsg: '△ Be specific',
+      },
+      {
+        id: 'format',
+        label: '✦ Format Specified',
+        good: 'score-great',
+        bad: 'score-ok',
+        pass: /bullet|paragraph|email|table|list|report|points|format|tone/.test(p),
+        passMsg: '✦ Format Given',
+        failMsg: '△ Specify format',
+      },
+    ];
+    return checks;
+  }
+
+  function renderScorePills(checks) {
+    const row = document.getElementById('score-row');
+    row.innerHTML = '';
+    checks.forEach(c => {
+      const pill = document.createElement('div');
+      pill.className = `score-pill ${c.pass ? c.good : c.bad}`;
+      pill.textContent = c.pass ? c.passMsg : c.failMsg;
+      row.appendChild(pill);
+    });
+
+    // Overall score label
+    const passed = checks.filter(c => c.pass).length;
+    const total = checks.length;
+    const overall = document.createElement('div');
+    overall.className = 'score-pill ' + (passed >= 3 ? 'score-great' : 'score-ok');
+    overall.style.marginLeft = 'auto';
+    overall.textContent = `${passed}/${total} criteria`;
+    row.appendChild(overall);
+
+    row.style.display = 'flex';
+    row.style.flexWrap = 'wrap';
+    row.style.gap = '6px';
+  }
+
+  // ── Real Claude API call ───────────────────────────────────────────
+  async function simulateResponse() {
+    const prompt = document.getElementById('user-prompt').value.trim();
+    const box = document.getElementById('response-box');
+    const scoreRow = document.getElementById('score-row');
+    const sendBtn = document.querySelector('.send-btn');
+
+    if (!prompt) {
+      box.innerHTML = '<span style="color:var(--danger)">Please enter a prompt first.</span>';
+      return;
+    }
+
+    // Show loading state
+    box.innerHTML = '<span class="typing">Claude is thinking</span>';
+    scoreRow.style.display = 'none';
+    sendBtn.disabled = true;
+    sendBtn.textContent = '⏳ Sending…';
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: `You are an AI embedded in a learning app called LeverageAI that teaches South African business professionals how to use Claude effectively. 
+
+The user is practising a lesson on "Context & Role Prompting". They are given this scenario: they are a marketing manager at a Cape Town-based fintech startup who needs to write a cold email to a large retail bank introducing their payment solution.
+
+Respond naturally to whatever prompt the user gives you, but keep responses focused and practical for a business context. Keep responses concise (under 250 words). If the user's prompt is vague or lacks a role/context, still respond helpfully but your answer will naturally be more generic — this teaches them the value of better prompting.`,
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        box.innerHTML = `<span style="color:var(--danger)">API Error: ${data.error.message}</span>`;
+        return;
+      }
+
+      const text = data.content?.[0]?.text || 'No response received.';
+
+      // Type out the response
+      box.textContent = '';
+      typeText(box, text, () => {
+        const checks = scorePrompt(prompt);
+        renderScorePills(checks);
+      });
+
+    } catch (err) {
+      box.innerHTML = `<span style="color:var(--danger)">Network error: ${err.message}</span>`;
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = '▶ Send to Claude';
+    }
+  }
+
+  function typeText(el, text, cb) {
+    el.textContent = '';
+    let i = 0;
+    const interval = setInterval(() => {
+      el.textContent += text[i];
+      i++;
+      el.scrollTop = el.scrollHeight;
+      if (i >= text.length) {
+        clearInterval(interval);
+        if (cb) cb();
+      }
+    }, 10);
+  }
+</script>
+
+</body>
+</html>
