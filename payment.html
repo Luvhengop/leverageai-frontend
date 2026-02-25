@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeverageAI — Upgrade to Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #e8c547;
+    --accent2: #4ecca3;
+    --text: #f0f0f8;
+    --muted: #6b6b8a;
+    --danger: #ff6b6b;
+    --success: #4ecca3;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+  background: var(–bg);
+  color: var(–text);
+  font-family: ‘DM Sans’, sans-serif;
+  min-height: 100vh;
+  }
+
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 70% 50% at 15% 0%, rgba(232,197,71,0.07) 0%, transparent 55%),
+radial-gradient(ellipse 50% 40% at 85% 100%, rgba(78,204,163,0.05) 0%, transparent 55%);
+pointer-events: none;
+z-index: 0;
+}
+
+/* ── NAV ── */
+.nav {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 40px;
+border-bottom: 1px solid var(–border);
+position: relative;
+z-index: 1;
+}
+
+.logo {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+font-weight: 900;
+}
+.logo span { color: var(–accent); }
+
+.back-link {
+font-size: 13px;
+color: var(–muted);
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 6px;
+transition: color 0.2s;
+background: none;
+border: none;
+font-family: ‘DM Sans’, sans-serif;
+}
+.back-link:hover { color: var(–text); }
+
+.secure-badge {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 11px;
+color: var(–accent2);
+font-weight: 600;
+}
+
+/* ── SANDBOX BANNER ── */
+.sandbox-banner {
+background: rgba(232,197,71,0.08);
+border-bottom: 1px solid rgba(232,197,71,0.2);
+padding: 10px 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+font-size: 12px;
+color: var(–accent);
+font-weight: 500;
+position: relative;
+z-index: 1;
+}
+
+.sandbox-toggle {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-left: 20px;
+}
+
+.toggle-switch {
+width: 36px;
+height: 20px;
+background: rgba(232,197,71,0.3);
+border-radius: 10px;
+position: relative;
+cursor: pointer;
+transition: background 0.3s;
+border: none;
+}
+
+.toggle-switch.off { background: var(–surface2); }
+
+.toggle-knob {
+position: absolute;
+top: 3px;
+left: 3px;
+width: 14px;
+height: 14px;
+background: var(–accent);
+border-radius: 50%;
+transition: transform 0.3s;
+}
+
+.toggle-switch.off .toggle-knob {
+transform: translateX(0);
+background: var(–muted);
+}
+
+.toggle-switch:not(.off) .toggle-knob {
+transform: translateX(16px);
+}
+
+/* ── MAIN LAYOUT ── */
+.page {
+display: grid;
+grid-template-columns: 1fr 420px;
+gap: 0;
+min-height: calc(100vh - 110px);
+position: relative;
+z-index: 1;
+}
+
+/* ── LEFT: PLAN SUMMARY ── */
+.plan-panel {
+padding: 52px 60px;
+border-right: 1px solid var(–border);
+}
+
+.plan-eyebrow {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 3px;
+color: var(–accent2);
+font-weight: 600;
+margin-bottom: 12px;
+}
+
+.plan-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 36px;
+font-weight: 700;
+margin-bottom: 8px;
+line-height: 1.15;
+}
+
+.plan-sub {
+font-size: 15px;
+color: var(–muted);
+margin-bottom: 40px;
+line-height: 1.6;
+}
+
+/* Plan selector */
+.plan-options {
+display: flex;
+flex-direction: column;
+gap: 12px;
+margin-bottom: 40px;
+}
+
+.plan-option {
+display: flex;
+align-items: center;
+gap: 16px;
+padding: 18px 20px;
+background: var(–surface);
+border: 1.5px solid var(–border);
+border-radius: 14px;
+cursor: pointer;
+transition: all 0.2s;
+position: relative;
+}
+
+.plan-option:hover { border-color: rgba(232,197,71,0.3); }
+
+.plan-option.selected {
+border-color: var(–accent);
+background: rgba(232,197,71,0.05);
+}
+
+.plan-option.selected::after {
+content: ‘✓’;
+position: absolute;
+right: 18px;
+top: 50%;
+transform: translateY(-50%);
+width: 22px; height: 22px;
+background: var(–accent);
+color: var(–bg);
+border-radius: 50%;
+font-size: 11px;
+font-weight: 700;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.plan-radio {
+width: 18px; height: 18px;
+border-radius: 50%;
+border: 2px solid var(–border);
+flex-shrink: 0;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.plan-option.selected .plan-radio {
+border-color: var(–accent);
+background: var(–accent);
+}
+
+.plan-option.selected .plan-radio::after {
+content: ‘’;
+width: 6px; height: 6px;
+background: var(–bg);
+border-radius: 50%;
+}
+
+.plan-option-info { flex: 1; }
+.plan-option-name {
+font-size: 15px;
+font-weight: 600;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.save-badge {
+font-size: 10px;
+font-weight: 700;
+background: rgba(78,204,163,0.15);
+color: var(–accent2);
+border: 1px solid rgba(78,204,163,0.25);
+padding: 2px 8px;
+border-radius: 4px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.plan-option-desc { font-size: 12px; color: var(–muted); margin-top: 3px; }
+
+.plan-option-price {
+text-align: right;
+flex-shrink: 0;
+margin-right: 32px;
+}
+
+.plan-price-amount {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+color: var(–accent);
+}
+
+.plan-price-period { font-size: 11px; color: var(–muted); }
+
+/* What’s included */
+.includes-title {
+font-size: 13px;
+font-weight: 600;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 16px;
+}
+
+.includes-list {
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 36px;
+}
+
+.include-item {
+display: flex;
+align-items: flex-start;
+gap: 12px;
+font-size: 14px;
+line-height: 1.4;
+}
+
+.include-check {
+width: 20px; height: 20px;
+background: rgba(78,204,163,0.12);
+border: 1px solid rgba(78,204,163,0.25);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 10px;
+color: var(–accent2);
+flex-shrink: 0;
+margin-top: 1px;
+}
+
+/* Testimonial */
+.mini-testimonial {
+background: var(–surface);
+border: 1px solid var(–border);
+border-left: 3px solid var(–accent);
+border-radius: 12px;
+padding: 18px 20px;
+}
+
+.mt-quote {
+font-family: ‘Playfair Display’, serif;
+font-size: 15px;
+font-style: italic;
+line-height: 1.6;
+margin-bottom: 12px;
+color: rgba(240,240,248,0.85);
+}
+
+.mt-author { font-size: 12px; color: var(–muted); }
+.mt-author strong { color: var(–text); }
+
+/* ── RIGHT: PAYMENT FORM ── */
+.payment-panel {
+padding: 52px 44px;
+background: var(–surface);
+border-left: 1px solid var(–border);
+}
+
+.payment-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+margin-bottom: 6px;
+}
+
+.payment-sub {
+font-size: 13px;
+color: var(–muted);
+margin-bottom: 28px;
+line-height: 1.6;
+}
+
+/* Order summary */
+.order-summary {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 18px;
+margin-bottom: 24px;
+}
+
+.order-row {
+display: flex;
+align-items: center;
+justify-content: space-between;
+font-size: 13px;
+margin-bottom: 8px;
+}
+
+.order-row:last-child { margin-bottom: 0; }
+
+.order-label { color: var(–muted); }
+.order-value { font-weight: 600; }
+
+.order-divider {
+height: 1px;
+background: var(–border);
+margin: 12px 0;
+}
+
+.order-total-label { font-size: 14px; font-weight: 600; }
+.order-total-value {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+color: var(–accent);
+}
+
+.order-trial {
+font-size: 11px;
+color: var(–accent2);
+text-align: center;
+margin-top: 6px;
+}
+
+/* Form fields */
+.field {
+margin-bottom: 14px;
+}
+
+.field label {
+display: block;
+font-size: 11px;
+font-weight: 600;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 7px;
+}
+
+.field input, .field select {
+width: 100%;
+padding: 12px 14px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 9px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+outline: none;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus, .field select:focus {
+border-color: rgba(232,197,71,0.4);
+box-shadow: 0 0 0 3px rgba(232,197,71,0.07);
+}
+
+.field input::placeholder { color: var(–muted); }
+.field select option { background: var(–surface2); }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Payment methods */
+.payment-methods {
+display: flex;
+gap: 8px;
+margin-bottom: 20px;
+}
+
+.pm-btn {
+flex: 1;
+padding: 10px 8px;
+background: var(–surface2);
+border: 1.5px solid var(–border);
+border-radius: 9px;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 12px;
+font-weight: 500;
+color: var(–muted);
+transition: all 0.2s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+}
+
+.pm-btn:hover { border-color: rgba(240,240,248,0.2); color: var(–text); }
+.pm-btn.active { border-color: var(–accent); color: var(–accent); background: rgba(232,197,71,0.06); }
+
+/* PayFast branding */
+.payfast-divider {
+display: flex;
+align-items: center;
+gap: 12px;
+margin: 16px 0;
+}
+
+.pf-line { flex: 1; height: 1px; background: var(–border); }
+
+.pf-brand {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 11px;
+color: var(–muted);
+font-weight: 500;
+white-space: nowrap;
+}
+
+.pf-logo {
+background: var(–accent);
+color: var(–bg);
+font-size: 9px;
+font-weight: 900;
+padding: 3px 6px;
+border-radius: 4px;
+letter-spacing: 0.5px;
+font-family: ‘DM Mono’, monospace;
+}
+
+/* Pay button */
+.pay-btn {
+width: 100%;
+padding: 15px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 12px;
+font-size: 15px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin-top: 20px;
+position: relative;
+overflow: hidden;
+}
+
+.pay-btn:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 6px 24px rgba(232,197,71,0.25); }
+.pay-btn:active { transform: translateY(0); }
+.pay-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.pay-btn::after {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+transform: translateX(-100%);
+transition: transform 0.6s;
+}
+
+.pay-btn:hover::after { transform: translateX(100%); }
+
+.security-note {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+font-size: 11px;
+color: var(–muted);
+margin-top: 12px;
+text-align: center;
+}
+
+.payment-logos {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin-top: 16px;
+flex-wrap: wrap;
+}
+
+.pm-logo {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 6px;
+padding: 5px 10px;
+font-size: 10px;
+font-weight: 700;
+color: var(–muted);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.5px;
+}
+
+/* ── SUCCESS STATE ── */
+.success-state {
+display: none;
+text-align: center;
+padding: 60px 40px;
+animation: fadeIn 0.5s ease-out;
+}
+
+.success-state.visible { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } }
+
+.success-icon {
+width: 72px; height: 72px;
+background: rgba(78,204,163,0.12);
+border: 2px solid rgba(78,204,163,0.3);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 32px;
+margin: 0 auto 24px;
+animation: successPop 0.5s ease-out 0.2s both;
+}
+
+@keyframes successPop {
+from { transform: scale(0.6); opacity: 0; }
+to { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 28px;
+font-weight: 700;
+margin-bottom: 10px;
+}
+
+.success-sub { font-size: 14px; color: var(–muted); line-height: 1.7; margin-bottom: 28px; }
+
+.success-details {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 18px;
+text-align: left;
+margin-bottom: 24px;
+}
+
+.sd-row {
+display: flex;
+justify-content: space-between;
+font-size: 13px;
+padding: 6px 0;
+}
+.sd-label { color: var(–muted); }
+.sd-value { font-weight: 600; font-family: ‘DM Mono’, monospace; font-size: 12px; }
+
+.btn-go-dashboard {
+width: 100%;
+padding: 14px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 12px;
+font-size: 14px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: opacity 0.2s;
+}
+.btn-go-dashboard:hover { opacity: 0.85; }
+
+/* ── SANDBOX CREDENTIALS BOX ── */
+.sandbox-creds {
+background: rgba(232,197,71,0.06);
+border: 1px solid rgba(232,197,71,0.2);
+border-radius: 10px;
+padding: 14px 16px;
+margin-bottom: 20px;
+font-size: 12px;
+line-height: 1.7;
+color: var(–muted);
+}
+
+.sandbox-creds strong { color: var(–accent); display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+
+.cred-row { font-family: ‘DM Mono’, monospace; font-size: 11px; }
+.cred-label { color: var(–muted); }
+.cred-value { color: var(–accent2); }
+
+/* ── LOADING SPINNER ── */
+.spinner {
+width: 18px; height: 18px;
+border: 2px solid rgba(10,10,15,0.3);
+border-top-color: var(–bg);
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── HIDDEN PAYFAST FORM ── */
+#payfast-form { display: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+.page { grid-template-columns: 1fr; }
+.plan-panel { padding: 36px 24px; border-right: none; border-bottom: 1px solid var(–border); }
+.payment-panel { padding: 36px 24px; }
+.nav { padding: 16px 20px; }
+.sandbox-banner { padding: 10px 20px; font-size: 11px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav class="nav">
+  <div class="logo">Leverage<span>AI</span></div>
+  <button class="back-link" onclick="history.back()">← Back</button>
+  <div class="secure-badge">🔒 Secured by PayFast</div>
+</nav>
+
+<!-- SANDBOX BANNER -->
+
+<div class="sandbox-banner" id="sandbox-banner">
+  ⚠️ <strong>Sandbox / Test Mode Active</strong> — No real payments will be processed
+  <div class="sandbox-toggle">
+    <span style="font-size:11px">Sandbox</span>
+    <button class="toggle-switch" id="sandbox-toggle" onclick="toggleSandbox()">
+      <div class="toggle-knob"></div>
+    </button>
+    <span style="font-size:11px">Live</span>
+  </div>
+</div>
+
+<!-- HIDDEN PAYFAST FORM (submitted programmatically) -->
+
+<form id="payfast-form" method="POST" action="https://sandbox.payfast.co.za/eng/process">
+  <input type="hidden" name="merchant_id" id="pf-merchant-id">
+  <input type="hidden" name="merchant_key" id="pf-merchant-key">
+  <input type="hidden" name="return_url" id="pf-return-url">
+  <input type="hidden" name="cancel_url" id="pf-cancel-url">
+  <input type="hidden" name="notify_url" id="pf-notify-url">
+  <input type="hidden" name="name_first" id="pf-name-first">
+  <input type="hidden" name="name_last" id="pf-name-last">
+  <input type="hidden" name="email_address" id="pf-email">
+  <input type="hidden" name="m_payment_id" id="pf-payment-id">
+  <input type="hidden" name="amount" id="pf-amount">
+  <input type="hidden" name="item_name" id="pf-item-name">
+  <input type="hidden" name="item_description" id="pf-item-desc">
+  <input type="hidden" name="subscription_type" value="1">
+  <input type="hidden" name="frequency" id="pf-frequency">
+  <input type="hidden" name="cycles" value="0">
+  <input type="hidden" name="subscription_notify_email" value="true">
+  <input type="hidden" name="subscription_notify_buyer" value="true">
+  <input type="hidden" name="email_confirmation" value="1">
+  <input type="hidden" name="signature" id="pf-signature">
+</form>
+
+<!-- MAIN PAGE -->
+
+<div class="page" id="main-page">
+
+  <!-- ── LEFT PANEL ── -->
+
+  <div class="plan-panel">
+    <div class="plan-eyebrow">Upgrade your account</div>
+    <h1 class="plan-title">Go Premium.<br>Unlock everything.</h1>
+    <p class="plan-sub">Choose your billing cycle — monthly or annual. Cancel anytime from your dashboard.</p>
+
+```
+<!-- Plan options -->
+<div class="plan-options">
+  <div class="plan-option selected" id="plan-monthly" onclick="selectPlan('monthly')">
+    <div class="plan-radio"><div style="width:6px;height:6px;background:var(--bg);border-radius:50%"></div></div>
+    <div class="plan-option-info">
+      <div class="plan-option-name">Monthly</div>
+      <div class="plan-option-desc">Billed every month · Cancel anytime</div>
+    </div>
+    <div class="plan-option-price">
+      <div class="plan-price-amount">R199</div>
+      <div class="plan-price-period">per month</div>
+    </div>
+  </div>
+
+  <div class="plan-option" id="plan-annual" onclick="selectPlan('annual')">
+    <div class="plan-radio"></div>
+    <div class="plan-option-info">
+      <div class="plan-option-name">
+        Annual
+        <span class="save-badge">Save R389</span>
+      </div>
+      <div class="plan-option-desc">R1,999/year — 2 months free</div>
+    </div>
+    <div class="plan-option-price">
+      <div class="plan-price-amount">R167</div>
+      <div class="plan-price-period">per month</div>
+    </div>
+  </div>
+
+  <div class="plan-option" id="plan-team" onclick="selectPlan('team')">
+    <div class="plan-radio"></div>
+    <div class="plan-option-info">
+      <div class="plan-option-name">Team (10 seats)</div>
+      <div class="plan-option-desc">Billed monthly · Includes team dashboard</div>
+    </div>
+    <div class="plan-option-price">
+      <div class="plan-price-amount">R1,800</div>
+      <div class="plan-price-period">per month</div>
+    </div>
+  </div>
+</div>
+
+<!-- What's included -->
+<div class="includes-title">What's included</div>
+<div class="includes-list">
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div>All free content + <strong>Advanced Techniques</strong> course (30-min deep dives)</div>
+  </div>
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div>Your <strong>Industry Module</strong> — Financial Services, Legal, or Marketing</div>
+  </div>
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div><strong>Personal Prompt Library</strong> — save and reuse your best prompts</div>
+  </div>
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div>Shareable <strong>LinkedIn Certificate</strong> on completion</div>
+  </div>
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div>100+ <strong>Master Prompt Templates</strong> for SA business contexts</div>
+  </div>
+  <div class="include-item">
+    <div class="include-check">✓</div>
+    <div>Priority support and early access to new courses</div>
+  </div>
+</div>
+
+<!-- Testimonial -->
+<div class="mini-testimonial">
+  <div class="mt-quote">"The ROI is immediate. I saved 6 hours in my first week alone. Worth every rand."</div>
+  <div class="mt-author"><strong>Sipho Dlamini</strong> · Portfolio Manager · Johannesburg</div>
+</div>
+```
+
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+
+  <div class="payment-panel">
+
+```
+<!-- Success state (hidden by default) -->
+<div class="success-state" id="success-state">
+  <div class="success-icon">🎉</div>
+  <div class="success-title">You're Premium!</div>
+  <p class="success-sub">Your subscription is active. Welcome to the full LeverageAI experience. Your receipt has been emailed to you.</p>
+  <div class="success-details" id="success-details"></div>
+  <button class="btn-go-dashboard" onclick="window.location.href='leverage-ai-app.html'">
+    Go to Dashboard →
+  </button>
+</div>
+
+<!-- Payment form (shown by default) -->
+<div id="payment-form-wrap">
+  <div class="payment-title">Complete your upgrade</div>
+  <p class="payment-sub">7-day free trial — you won't be charged until <span id="trial-end-date" style="color:var(--accent)"></span></p>
+
+  <!-- Order summary -->
+  <div class="order-summary">
+    <div class="order-row">
+      <span class="order-label">Plan</span>
+      <span class="order-value" id="summary-plan">Premium Monthly</span>
+    </div>
+    <div class="order-row">
+      <span class="order-label">Billing</span>
+      <span class="order-value" id="summary-billing">Every month</span>
+    </div>
+    <div class="order-row">
+      <span class="order-label">Trial period</span>
+      <span class="order-value" style="color:var(--accent2)">7 days free</span>
+    </div>
+    <div class="order-divider"></div>
+    <div class="order-row">
+      <span class="order-total-label">Due today</span>
+      <span class="order-total-value" id="summary-total">R0.00</span>
+    </div>
+    <div class="order-trial">Then <span id="summary-after-trial">R199/month</span> after your free trial</div>
+  </div>
+
+  <!-- Sandbox credentials (shown in test mode) -->
+  <div class="sandbox-creds" id="sandbox-creds">
+    <strong>🧪 Sandbox Test Credentials</strong>
+    <div class="cred-row"><span class="cred-label">Merchant ID: </span><span class="cred-value">10000100</span></div>
+    <div class="cred-row"><span class="cred-label">Merchant Key: </span><span class="cred-value">46f0cd694581a</span></div>
+    <div class="cred-row"><span class="cred-label">Test card: </span><span class="cred-value">4000000000000002</span></div>
+    <div class="cred-row"><span class="cred-label">OTP: </span><span class="cred-value">222222</span></div>
+    <div class="cred-row" style="margin-top:4px;color:rgba(240,240,248,0.5);font-size:10px">PayFast will redirect to sandbox.payfast.co.za in test mode</div>
+  </div>
+
+  <!-- Personal details -->
+  <div class="field-row">
+    <div class="field">
+      <label>First Name</label>
+      <input type="text" id="fname" placeholder="Thabo" required>
+    </div>
+    <div class="field">
+      <label>Last Name</label>
+      <input type="text" id="lname" placeholder="Mokoena" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Email Address</label>
+    <input type="email" id="email" placeholder="thabo@company.co.za" required>
+  </div>
+
+  <!-- Payment method selector -->
+  <div class="field">
+    <label>Payment Method</label>
+  </div>
+  <div class="payment-methods">
+    <button class="pm-btn active" id="pm-card" onclick="setPaymentMethod('card')">💳 Card</button>
+    <button class="pm-btn" id="pm-eft" onclick="setPaymentMethod('eft')">🏦 EFT</button>
+    <button class="pm-btn" id="pm-snapscan" onclick="setPaymentMethod('snapscan')">📱 SnapScan</button>
+  </div>
+
+  <div class="payfast-divider">
+    <div class="pf-line"></div>
+    <div class="pf-brand">
+      <span>Secure payment via</span>
+      <span class="pf-logo">PAYFAST</span>
+    </div>
+    <div class="pf-line"></div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:6px">
+    You'll be securely redirected to PayFast to enter your card details and complete the payment. LeverageAI never handles your card information directly.
+  </p>
+
+  <!-- Pay button -->
+  <button class="pay-btn" id="pay-btn" onclick="initiatePayment()">
+    <div class="spinner" id="pay-spinner"></div>
+    <span id="pay-btn-text">Start 7-Day Free Trial →</span>
+  </button>
+
+  <div class="security-note">
+    🔒 256-bit SSL encryption · PCI DSS Level 1 compliant · Cancel anytime
+  </div>
+
+  <div class="payment-logos">
+    <span class="pm-logo">VISA</span>
+    <span class="pm-logo">MASTERCARD</span>
+    <span class="pm-logo">EFT</span>
+    <span class="pm-logo">SNAPSCAN</span>
+    <span class="pm-logo">MOBICRED</span>
+    <span class="pm-logo">PAYFLEX</span>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+  // ── BACKEND API ───────────────────────────────────────────────────
+  const API = 'https://web-production-a8715f.up.railway.app';
+
+  // ── CONFIG ────────────────────────────────────────────────────────
+  const CONFIG = {
+    sandbox: {
+      url: 'https://sandbox.payfast.co.za/eng/process',
+      merchant_id: '10000100',
+      merchant_key: '46f0cd694581a',
+      passphrase: 'jt7NOE43FZPn',
+    },
+    live: {
+      url: 'https://www.payfast.co.za/eng/process',
+      merchant_id: 'YOUR_MERCHANT_ID',      // ← Replace with your PayFast Merchant ID
+      merchant_key: 'YOUR_MERCHANT_KEY',    // ← Replace with your PayFast Merchant Key
+      passphrase: 'YOUR_PASSPHRASE',        // ← Replace with your PayFast Passphrase
+    },
+    // Your app URLs — update these when deploying
+    return_url: window.location.origin + '/payment-success',
+    cancel_url: window.location.origin + '/payment-cancel',
+    notify_url: 'https://YOUR-BACKEND.co.za/payfast/notify', // ← Your ITN endpoint
+  };
+
+  const PLANS = {
+    monthly: { name: 'Premium Monthly', amount: '199.00', billing: 'Every month', after: 'R199/month', frequency: '3', itemName: 'LeverageAI Premium - Monthly' },
+    annual:  { name: 'Premium Annual',  amount: '1999.00', billing: 'Once per year', after: 'R1,999/year', frequency: '6', itemName: 'LeverageAI Premium - Annual' },
+    team:    { name: 'Team (10 seats)', amount: '1800.00', billing: 'Every month', after: 'R1,800/month', frequency: '3', itemName: 'LeverageAI Team Plan' },
+  };
+
+  let isSandbox = true;
+  let selectedPlan = 'monthly';
+  let paymentMethod = 'card';
+
+  // ── INIT ─────────────────────────────────────────────────────────
+  function init() {
+    // Set trial end date
+    const trialEnd = new Date();
+    trialEnd.setDate(trialEnd.getDate() + 7);
+    document.getElementById('trial-end-date').textContent =
+      trialEnd.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    updateSummary();
+  }
+
+  // ── PLAN SELECTION ────────────────────────────────────────────────
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.querySelectorAll('.plan-option').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.plan-option .plan-radio').forEach(el => {
+      el.innerHTML = '';
+    });
+    document.getElementById(`plan-${plan}`).classList.add('selected');
+    const radio = document.querySelector(`#plan-${plan} .plan-radio`);
+    radio.innerHTML = '<div style="width:6px;height:6px;background:var(--bg);border-radius:50%"></div>';
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const p = PLANS[selectedPlan];
+    document.getElementById('summary-plan').textContent = p.name;
+    document.getElementById('summary-billing').textContent = p.billing;
+    document.getElementById('summary-after-trial').textContent = p.after;
+    document.getElementById('pay-btn-text').textContent = 'Start 7-Day Free Trial →';
+  }
+
+  // ── PAYMENT METHOD ────────────────────────────────────────────────
+  function setPaymentMethod(method) {
+    paymentMethod = method;
+    document.querySelectorAll('.pm-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`pm-${method}`).classList.add('active');
+  }
+
+  // ── SANDBOX TOGGLE ────────────────────────────────────────────────
+  function toggleSandbox() {
+    isSandbox = !isSandbox;
+    const toggle = document.getElementById('sandbox-toggle');
+    const banner = document.getElementById('sandbox-banner');
+    const creds = document.getElementById('sandbox-creds');
+    const form = document.getElementById('payfast-form');
+
+    toggle.classList.toggle('off', !isSandbox);
+    creds.style.display = isSandbox ? 'block' : 'none';
+    banner.style.background = isSandbox
+      ? 'rgba(232,197,71,0.08)'
+      : 'rgba(78,204,163,0.08)';
+    banner.style.borderColor = isSandbox
+      ? 'rgba(232,197,71,0.2)'
+      : 'rgba(78,204,163,0.2)';
+    banner.style.color = isSandbox ? 'var(--accent)' : 'var(--accent2)';
+    banner.querySelector('strong').textContent = isSandbox
+      ? '⚠️ Sandbox / Test Mode Active — No real payments will be processed'
+      : '✅ Live Mode — Real payments will be processed';
+    banner.querySelector('strong').style.fontWeight = '600';
+
+    form.action = isSandbox ? CONFIG.sandbox.url : CONFIG.live.url;
+  }
+
+  // ── GENERATE PAYMENT ID ───────────────────────────────────────────
+  function generatePaymentId() {
+    return 'LAI-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  }
+
+  // ── MD5 SIGNATURE ─────────────────────────────────────────────────
+  // Note: In production, signature MUST be generated server-side to keep passphrase secret
+  // This client-side implementation is for demo/sandbox purposes only
+  async function generateSignature(data, passphrase) {
+    const str = Object.entries(data)
+      .filter(([, v]) => v !== '' && v !== null && v !== undefined)
+      .map(([k, v]) => `${k}=${encodeURIComponent(String(v)).replace(/%20/g, '+')}`)
+      .join('&') + (passphrase ? `&passphrase=${encodeURIComponent(passphrase)}` : '');
+
+    // Use SubtleCrypto for MD5-like hash (simplified for demo)
+    // In production: generate MD5 on your backend
+    const msgBuffer = new TextEncoder().encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // ── INITIATE PAYMENT ──────────────────────────────────────────────
+  async function initiatePayment() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!fname || !lname || !email) {
+      highlightEmpty(['fname', 'lname', 'email'].filter(id => !document.getElementById(id).value.trim()));
+      return;
+    }
+    if (!isValidEmail(email)) {
+      document.getElementById('email').style.borderColor = 'var(--danger)';
+      return;
+    }
+
+    const btn = document.getElementById('pay-btn');
+    const spinner = document.getElementById('pay-spinner');
+    const btnText = document.getElementById('pay-btn-text');
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.textContent = 'Preparing payment…';
+
+    try {
+      let token = localStorage.getItem('access_token');
+
+      if (!token) {
+        const signupRes = await fetch(`${API}/api/auth/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email, password: Math.random().toString(36).slice(-10) + 'A1!',
+            first_name: fname, last_name: lname
+          })
+        });
+        const signupData = await signupRes.json();
+        if (signupRes.ok) {
+          localStorage.setItem('access_token', signupData.access_token);
+          localStorage.setItem('refresh_token', signupData.refresh_token);
+          token = signupData.access_token;
+        }
+      }
+
+      const res = await fetch(`${API}/api/payfast/initiate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ plan: selectedPlan })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Payment initiation failed');
+
+      const form = document.getElementById('payfast-form');
+      form.action = data.action;
+      form.innerHTML = '';
+      Object.entries(data.data).forEach(([key, val]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = val;
+        form.appendChild(input);
+      });
+
+      btnText.textContent = 'Redirecting to PayFast…';
+      setTimeout(() => form.submit(), 600);
+
+    } catch (err) {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      btnText.textContent = 'Start 7-Day Free Trial →';
+      alert('Payment error: ' + err.message);
+    }
+  }
+
+  // ── HANDLE RETURN FROM PAYFAST ────────────────────────────────────
+  // In production: verify payment via ITN (Instant Transaction Notification) on your backend
+  // This simulates success for demo purposes when ?demo=success is in URL
+  async function checkReturnStatus() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('demo') === 'success') {
+      showSuccess({
+        plan: params.get('plan') || 'monthly',
+        paymentId: 'LAI-DEMO-' + Date.now(),
+      });
+    }
+  }
+
+  function showSuccess(data) {
+    document.getElementById('payment-form-wrap').style.display = 'none';
+    const success = document.getElementById('success-state');
+    const plan = PLANS[data.plan] || PLANS.monthly;
+    const now = new Date();
+
+    document.getElementById('success-details').innerHTML = `
+      <div class="sd-row"><span class="sd-label">Plan</span><span class="sd-value">${plan.name}</span></div>
+      <div class="sd-row"><span class="sd-label">Payment ID</span><span class="sd-value">${data.paymentId}</span></div>
+      <div class="sd-row"><span class="sd-label">Date</span><span class="sd-value">${now.toLocaleDateString('en-ZA')}</span></div>
+      <div class="sd-row"><span class="sd-label">Status</span><span class="sd-value" style="color:var(--accent2)">✓ Active</span></div>
+    `;
+
+    success.classList.add('visible');
+  }
+
+  // ── HELPERS ───────────────────────────────────────────────────────
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function highlightEmpty(ids) {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      el.style.borderColor = 'var(--danger)';
+      el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+    });
+  }
+
+  // Reset border on input
+  ['fname', 'lname', 'email'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', function() {
+      this.style.borderColor = '';
+    });
+  });
+
+  // ── START ─────────────────────────────────────────────────────────
+  init();
+  checkReturnStatus();
+</script>
+
+</body>
+</html>
