@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeverageAI — Prompt Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --surface3: #20202e;
+    --border: #2a2a3d;
+    --accent: #e8c547;
+    --accent2: #4ecca3;
+    --text: #f0f0f8;
+    --muted: #6b6b8a;
+    --danger: #ff6b6b;
+    --finance: #4ecca3;
+    --legal: #a78bfa;
+    --marketing: #fb923c;
+    --consulting: #60a5fa;
+    --general: #e8c547;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 60% 40% at 5% 0%, rgba(232,197,71,0.06) 0%, transparent 55%),
+radial-gradient(ellipse 50% 40% at 95% 100%, rgba(78,204,163,0.04) 0%, transparent 55%);
+pointer-events: none;
+z-index: 0;
+}
+
+/* ── APP SHELL ── */
+.app {
+display: grid;
+grid-template-columns: 240px 1fr;
+min-height: 100vh;
+position: relative;
+z-index: 1;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+background: var(–surface);
+border-right: 1px solid var(–border);
+display: flex;
+flex-direction: column;
+position: sticky;
+top: 0;
+height: 100vh;
+overflow-y: auto;
+}
+
+.logo {
+padding: 24px 20px 20px;
+border-bottom: 1px solid var(–border);
+}
+.logo-mark {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+font-weight: 900;
+}
+.logo-mark span { color: var(–accent); }
+.logo-sub { font-size: 10px; color: var(–muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+
+.sidebar-section { padding: 16px 12px 8px; }
+.sidebar-label {
+font-size: 10px;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(–muted);
+padding: 0 8px;
+margin-bottom: 6px;
+}
+
+.nav-item {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 9px 10px;
+border-radius: 8px;
+cursor: pointer;
+font-size: 13px;
+color: var(–muted);
+transition: all 0.2s;
+margin-bottom: 1px;
+}
+.nav-item:hover { background: var(–surface2); color: var(–text); }
+.nav-item.active { background: rgba(232,197,71,0.1); color: var(–accent); }
+.nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+.nav-item .count {
+margin-left: auto;
+font-size: 10px;
+background: var(–surface2);
+border: 1px solid var(–border);
+color: var(–muted);
+padding: 1px 6px;
+border-radius: 8px;
+font-family: ‘DM Mono’, monospace;
+}
+
+.ind-dot {
+width: 8px; height: 8px;
+border-radius: 50%;
+margin-left: auto;
+flex-shrink: 0;
+}
+
+/* ── MAIN ── */
+.main { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── TOPBAR ── */
+.topbar {
+padding: 18px 32px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 16px;
+background: var(–bg);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+
+.page-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+white-space: nowrap;
+}
+
+.search-wrap {
+flex: 1;
+max-width: 420px;
+position: relative;
+}
+
+.search-icon {
+position: absolute;
+left: 14px;
+top: 50%;
+transform: translateY(-50%);
+color: var(–muted);
+font-size: 14px;
+pointer-events: none;
+}
+
+.search-input {
+width: 100%;
+padding: 10px 16px 10px 38px;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 10px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+outline: none;
+transition: border-color 0.2s;
+}
+.search-input:focus { border-color: rgba(232,197,71,0.4); }
+.search-input::placeholder { color: var(–muted); }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+.view-toggle {
+display: flex;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+overflow: hidden;
+}
+.vt-btn {
+padding: 8px 12px;
+background: none;
+border: none;
+color: var(–muted);
+cursor: pointer;
+font-size: 14px;
+transition: all 0.2s;
+}
+.vt-btn.active { background: var(–surface2); color: var(–text); }
+
+.btn-add {
+padding: 9px 18px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 9px;
+font-size: 12px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+display: flex;
+align-items: center;
+gap: 6px;
+transition: opacity 0.2s;
+white-space: nowrap;
+}
+.btn-add:hover { opacity: 0.85; }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+padding: 14px 32px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+gap: 8px;
+overflow-x: auto;
+background: var(–bg);
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+padding: 6px 14px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 500;
+cursor: pointer;
+white-space: nowrap;
+border: 1px solid var(–border);
+background: none;
+color: var(–muted);
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.filter-chip:hover { border-color: rgba(240,240,248,0.2); color: var(–text); }
+.filter-chip.active { background: var(–accent); color: var(–bg); border-color: var(–accent); font-weight: 600; }
+.filter-chip .chip-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+.filter-sep { width: 1px; height: 20px; background: var(–border); flex-shrink: 0; }
+
+/* ── CONTENT ── */
+.content { padding: 28px 32px; flex: 1; }
+
+.results-info {
+font-size: 12px;
+color: var(–muted);
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.sort-select {
+background: var(–surface);
+border: 1px solid var(–border);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 12px;
+padding: 5px 10px;
+border-radius: 6px;
+outline: none;
+cursor: pointer;
+}
+
+/* ── PROMPT GRID ── */
+.prompt-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+gap: 16px;
+}
+
+.prompt-grid.list-view {
+grid-template-columns: 1fr;
+}
+
+/* ── PROMPT CARD ── */
+.prompt-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 16px;
+overflow: hidden;
+cursor: pointer;
+transition: all 0.25s;
+display: flex;
+flex-direction: column;
+animation: cardIn 0.4s ease-out both;
+}
+
+@keyframes cardIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.prompt-card:hover {
+border-color: rgba(232,197,71,0.3);
+transform: translateY(-2px);
+box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+.prompt-card.list-view {
+flex-direction: row;
+align-items: stretch;
+}
+
+.card-header {
+padding: 18px 18px 12px;
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 10px;
+}
+
+.card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.industry-badge {
+font-size: 10px;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.8px;
+padding: 3px 9px;
+border-radius: 4px;
+}
+
+.ib-finance { background: rgba(78,204,163,0.12); color: var(–finance); }
+.ib-legal { background: rgba(167,139,250,0.12); color: var(–legal); }
+.ib-marketing { background: rgba(251,146,60,0.12); color: var(–marketing); }
+.ib-consulting { background: rgba(96,165,250,0.12); color: var(–consulting); }
+.ib-general { background: rgba(232,197,71,0.12); color: var(–general); }
+
+.card-actions { display: flex; gap: 4px; flex-shrink: 0; }
+
+.icon-btn {
+width: 30px; height: 30px;
+background: none;
+border: none;
+border-radius: 7px;
+color: var(–muted);
+cursor: pointer;
+font-size: 14px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+}
+.icon-btn:hover { background: var(–surface2); color: var(–text); }
+.icon-btn.faved { color: var(–accent); }
+
+.card-body { padding: 0 18px 16px; flex: 1; }
+
+.card-title {
+font-size: 15px;
+font-weight: 600;
+margin-bottom: 6px;
+line-height: 1.3;
+color: var(–text);
+}
+
+.card-desc {
+font-size: 12px;
+color: var(–muted);
+line-height: 1.6;
+margin-bottom: 12px;
+}
+
+.prompt-preview {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 10px 12px;
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+color: rgba(240,240,248,0.6);
+line-height: 1.6;
+max-height: 72px;
+overflow: hidden;
+position: relative;
+}
+
+.prompt-preview::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 28px;
+background: linear-gradient(to top, var(–surface2), transparent);
+}
+
+.card-footer {
+padding: 12px 18px;
+border-top: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-tag {
+font-size: 10px;
+color: var(–muted);
+background: var(–surface2);
+border: 1px solid var(–border);
+padding: 2px 8px;
+border-radius: 4px;
+font-family: ‘DM Mono’, monospace;
+}
+
+.card-stats { display: flex; gap: 12px; }
+.card-stat { font-size: 11px; color: var(–muted); display: flex; align-items: center; gap: 4px; }
+
+.copy-btn {
+padding: 6px 14px;
+background: none;
+border: 1px solid var(–border);
+border-radius: 7px;
+color: var(–muted);
+font-size: 11px;
+font-weight: 600;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+gap: 5px;
+}
+.copy-btn:hover { border-color: var(–accent2); color: var(–accent2); }
+.copy-btn.copied { border-color: var(–accent2); color: var(–accent2); }
+
+/* ── MODAL ── */
+.modal-backdrop {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.8);
+z-index: 200;
+align-items: center;
+justify-content: center;
+padding: 24px;
+backdrop-filter: blur(4px);
+}
+.modal-backdrop.open { display: flex; }
+
+.modal {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 20px;
+width: 100%;
+max-width: 680px;
+max-height: 90vh;
+overflow-y: auto;
+animation: modalIn 0.3s ease-out;
+}
+
+@keyframes modalIn {
+from { opacity: 0; transform: scale(0.95) translateY(10px); }
+to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+padding: 24px 28px 20px;
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 16px;
+}
+
+.modal-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+}
+
+.modal-close {
+width: 32px; height: 32px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 8px;
+color: var(–muted);
+cursor: pointer;
+font-size: 16px;
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0;
+transition: all 0.2s;
+}
+.modal-close:hover { color: var(–text); border-color: var(–text); }
+
+.modal-body { padding: 24px 28px; }
+
+.modal-label {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 1.5px;
+color: var(–muted);
+font-weight: 600;
+margin-bottom: 8px;
+}
+
+.modal-prompt-box {
+background: var(–surface2);
+border: 1px solid var(–border);
+border-left: 3px solid var(–accent);
+border-radius: 10px;
+padding: 16px;
+font-family: ‘DM Mono’, monospace;
+font-size: 12px;
+color: rgba(240,240,248,0.85);
+line-height: 1.8;
+margin-bottom: 20px;
+white-space: pre-wrap;
+}
+
+.modal-actions { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+
+.btn-modal-primary {
+padding: 10px 20px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 9px;
+font-size: 13px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: opacity 0.2s;
+display: flex; align-items: center; gap: 7px;
+}
+.btn-modal-primary:hover { opacity: 0.85; }
+
+.btn-modal-ghost {
+padding: 10px 18px;
+background: none;
+border: 1px solid var(–border);
+border-radius: 9px;
+font-size: 13px;
+font-weight: 500;
+color: var(–muted);
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: all 0.2s;
+display: flex; align-items: center; gap: 7px;
+}
+.btn-modal-ghost:hover { border-color: var(–text); color: var(–text); }
+
+/* ── SANDBOX IN MODAL ── */
+.sandbox-section { border-top: 1px solid var(–border); padding-top: 20px; }
+
+.sandbox-label-row {
+display: flex; align-items: center; justify-content: space-between;
+margin-bottom: 10px;
+}
+
+.live-badge {
+display: flex; align-items: center; gap: 6px;
+font-size: 11px; color: var(–accent2); font-weight: 600;
+}
+.live-dot { width: 6px; height: 6px; background: var(–accent2); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.sandbox-textarea {
+width: 100%;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 14px;
+font-family: ‘DM Mono’, monospace;
+font-size: 12px;
+color: var(–text);
+resize: none;
+height: 130px;
+outline: none;
+transition: border-color 0.2s;
+line-height: 1.7;
+}
+.sandbox-textarea:focus { border-color: rgba(232,197,71,0.4); }
+
+.sandbox-run-btn {
+margin-top: 10px;
+padding: 10px 20px;
+background: var(–accent);
+color: var(–bg);
+border: none;
+border-radius: 9px;
+font-size: 12px;
+font-weight: 700;
+cursor: pointer;
+font-family: ‘DM Sans’, sans-serif;
+transition: opacity 0.2s;
+display: flex; align-items: center; gap: 7px;
+width: 100%;
+justify-content: center;
+}
+.sandbox-run-btn:hover { opacity: 0.85; }
+
+.response-area {
+margin-top: 14px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 14px;
+font-size: 13px;
+color: rgba(240,240,248,0.75);
+min-height: 80px;
+line-height: 1.7;
+white-space: pre-wrap;
+display: none;
+}
+
+.typing-indicator::after {
+content: ‘▋’;
+animation: blink 1s step-end infinite;
+color: var(–accent);
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── ADD PROMPT MODAL ── */
+.add-field { margin-bottom: 16px; }
+.add-field label {
+display: block;
+font-size: 11px;
+font-weight: 600;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 7px;
+}
+.add-field input, .add-field select, .add-field textarea {
+width: 100%;
+padding: 11px 14px;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 9px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+outline: none;
+transition: border-color 0.2s;
+}
+.add-field input:focus, .add-field select:focus, .add-field textarea:focus {
+border-color: rgba(232,197,71,0.4);
+}
+.add-field textarea { resize: none; height: 120px; font-family: ‘DM Mono’, monospace; font-size: 12px; line-height: 1.7; }
+.add-field select option { background: var(–surface2); }
+.add-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+text-align: center;
+padding: 80px 40px;
+color: var(–muted);
+display: none;
+}
+.empty-state.visible { display: block; }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-title { font-family: ‘Playfair Display’, serif; font-size: 22px; color: var(–text); margin-bottom: 8px; }
+.empty-sub { font-size: 14px; line-height: 1.6; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(–border); border-radius: 3px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+.app { grid-template-columns: 1fr; }
+.sidebar { display: none; }
+.content { padding: 20px 16px; }
+.topbar, .filter-bar { padding-left: 16px; padding-right: 16px; }
+.prompt-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">Leverage<span>AI</span></div>
+      <div class="logo-sub">Prompt Library</div>
+    </div>
+
+```
+<div class="sidebar-section">
+  <div class="sidebar-label">Views</div>
+  <div class="nav-item" onclick="filterCategory('all', this)">
+    <span class="icon">🗂️</span> All Prompts <span class="count" id="count-all">0</span>
+  </div>
+  <div class="nav-item active" onclick="filterCategory('saved', this)">
+    <span class="icon">⭐</span> My Saved <span class="count" id="count-saved">0</span>
+  </div>
+  <div class="nav-item" onclick="filterCategory('mine', this)">
+    <span class="icon">✍️</span> My Created <span class="count" id="count-mine">0</span>
+  </div>
+</div>
+
+<div class="sidebar-section">
+  <div class="sidebar-label">Industry</div>
+  <div class="nav-item" onclick="filterIndustry('finance', this)">
+    <span class="icon">💼</span> Financial Services
+    <span class="ind-dot" style="background:var(--finance)"></span>
+  </div>
+  <div class="nav-item" onclick="filterIndustry('legal', this)">
+    <span class="icon">⚖️</span> Legal
+    <span class="ind-dot" style="background:var(--legal)"></span>
+  </div>
+  <div class="nav-item" onclick="filterIndustry('marketing', this)">
+    <span class="icon">📣</span> Marketing
+    <span class="ind-dot" style="background:var(--marketing)"></span>
+  </div>
+  <div class="nav-item" onclick="filterIndustry('consulting', this)">
+    <span class="icon">📊</span> Consulting
+    <span class="ind-dot" style="background:var(--consulting)"></span>
+  </div>
+  <div class="nav-item" onclick="filterIndustry('general', this)">
+    <span class="icon">⚡</span> General
+    <span class="ind-dot" style="background:var(--general)"></span>
+  </div>
+</div>
+
+<div class="sidebar-section">
+  <div class="sidebar-label">Category</div>
+  <div class="nav-item" onclick="filterTag('writing', this)">
+    <span class="icon">✍️</span> Writing
+  </div>
+  <div class="nav-item" onclick="filterTag('analysis', this)">
+    <span class="icon">🔍</span> Analysis
+  </div>
+  <div class="nav-item" onclick="filterTag('strategy', this)">
+    <span class="icon">🧠</span> Strategy
+  </div>
+  <div class="nav-item" onclick="filterTag('summarise', this)">
+    <span class="icon">📋</span> Summarise
+  </div>
+  <div class="nav-item" onclick="filterTag('email', this)">
+    <span class="icon">✉️</span> Email
+  </div>
+</div>
+```
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+
+  <main class="main">
+
+```
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="page-title">Prompt Library</div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Search prompts…" id="search-input" oninput="handleSearch(this.value)">
+  </div>
+  <div class="topbar-right">
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt-grid" onclick="setView('grid')">⊞</button>
+      <button class="vt-btn" id="vt-list" onclick="setView('list')">☰</button>
+    </div>
+    <button class="btn-add" onclick="openAddModal()">＋ Add Prompt</button>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-chip active" data-filter="all" onclick="quickFilter('all', this)">All</button>
+  <button class="filter-chip" data-filter="finance" onclick="quickFilter('finance', this)">
+    <span class="chip-dot" style="background:var(--finance)"></span> Finance
+  </button>
+  <button class="filter-chip" data-filter="legal" onclick="quickFilter('legal', this)">
+    <span class="chip-dot" style="background:var(--legal)"></span> Legal
+  </button>
+  <button class="filter-chip" data-filter="marketing" onclick="quickFilter('marketing', this)">
+    <span class="chip-dot" style="background:var(--marketing)"></span> Marketing
+  </button>
+  <button class="filter-chip" data-filter="consulting" onclick="quickFilter('consulting', this)">
+    <span class="chip-dot" style="background:var(--consulting)"></span> Consulting
+  </button>
+  <button class="filter-chip" data-filter="general" onclick="quickFilter('general', this)">
+    <span class="chip-dot" style="background:var(--general)"></span> General
+  </button>
+  <div class="filter-sep"></div>
+  <button class="filter-chip" data-filter="writing" onclick="quickFilter('writing', this)">✍️ Writing</button>
+  <button class="filter-chip" data-filter="analysis" onclick="quickFilter('analysis', this)">🔍 Analysis</button>
+  <button class="filter-chip" data-filter="email" onclick="quickFilter('email', this)">✉️ Email</button>
+  <button class="filter-chip" data-filter="strategy" onclick="quickFilter('strategy', this)">🧠 Strategy</button>
+  <button class="filter-chip" data-filter="summarise" onclick="quickFilter('summarise', this)">📋 Summarise</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="results-info">
+    <span id="results-label">Loading prompts…</span>
+    <select class="sort-select" onchange="handleSort(this.value)">
+      <option value="popular">Most Popular</option>
+      <option value="newest">Newest</option>
+      <option value="saved">Most Saved</option>
+      <option value="az">A–Z</option>
+    </select>
+  </div>
+
+  <div class="prompt-grid" id="prompt-grid"></div>
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon">🔍</div>
+    <div class="empty-title">No prompts found</div>
+    <div class="empty-sub">Try adjusting your search or filters.<br>Or add your own prompt to the library.</div>
+  </div>
+</div>
+```
+
+  </main>
+</div>
+
+<!-- ── PROMPT DETAIL MODAL ── -->
+
+<div class="modal-backdrop" id="detail-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div id="modal-industry-badge" style="margin-bottom:8px"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-label">Description</div>
+      <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px" id="modal-desc"></p>
+
+```
+  <div class="modal-label">Prompt Template</div>
+  <div class="modal-prompt-box" id="modal-prompt"></div>
+
+  <div class="modal-actions">
+    <button class="btn-modal-primary" id="modal-copy-btn" onclick="copyModalPrompt()">📋 Copy Prompt</button>
+    <button class="btn-modal-ghost" id="modal-fav-btn" onclick="toggleModalFav()">☆ Save to Library</button>
+    <button class="btn-modal-ghost" onclick="loadSandbox()">🧪 Test in Sandbox</button>
+  </div>
+
+  <div class="modal-label" style="margin-bottom:6px">
+    Tags: <span id="modal-tags" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent2)"></span>
+  </div>
+
+  <!-- Live Sandbox -->
+  <div class="sandbox-section" id="sandbox-section" style="display:none">
+    <div class="sandbox-label-row">
+      <div class="modal-label" style="margin:0">Try it Live</div>
+      <div class="live-badge"><div class="live-dot"></div> Connected to Claude</div>
+    </div>
+    <textarea class="sandbox-textarea" id="modal-sandbox-input" placeholder="The prompt has been loaded — customise it then send…"></textarea>
+    <button class="sandbox-run-btn" onclick="runSandbox()">▶ Send to Claude</button>
+    <div class="response-area" id="sandbox-response"></div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ── ADD PROMPT MODAL ── -->
+
+<div class="modal-backdrop" id="add-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Prompt</div>
+      <button class="modal-close" onclick="closeModal('add-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="add-field">
+        <label>Prompt Title</label>
+        <input type="text" id="add-title" placeholder="e.g. Client Investment Update Letter">
+      </div>
+      <div class="add-field">
+        <label>Description</label>
+        <input type="text" id="add-desc" placeholder="What does this prompt do?">
+      </div>
+      <div class="add-field-row">
+        <div class="add-field">
+          <label>Industry</label>
+          <select id="add-industry">
+            <option value="general">General</option>
+            <option value="finance">Financial Services</option>
+            <option value="legal">Legal</option>
+            <option value="marketing">Marketing</option>
+            <option value="consulting">Consulting</option>
+          </select>
+        </div>
+        <div class="add-field">
+          <label>Category</label>
+          <select id="add-category">
+            <option value="writing">Writing</option>
+            <option value="analysis">Analysis</option>
+            <option value="email">Email</option>
+            <option value="strategy">Strategy</option>
+            <option value="summarise">Summarise</option>
+          </select>
+        </div>
+      </div>
+      <div class="add-field">
+        <label>Prompt Template</label>
+        <textarea id="add-prompt" placeholder="You are a [role] with [experience]…&#10;&#10;[Task description]&#10;&#10;Output format: [specify]"></textarea>
+      </div>
+      <button class="btn-modal-primary" style="width:100%" onclick="saveNewPrompt()">＋ Add to Library</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PROMPT DATA ──────────────────────────────────────────────────────
+const PROMPTS = [
+  {
+    id: 1,
+    title: "Client Investment Update Letter",
+    desc: "Draft a professional quarterly investment update for private wealth clients. Balances performance data with market narrative.",
+    industry: "finance",
+    tags: ["writing", "email"],
+    uses: 842,
+    saves: 312,
+    prompt: `You are a senior portfolio manager at a JSE-listed South African asset manager with 15 years of experience writing client communications.
+
+Draft a Q[QUARTER] [YEAR] client investment letter for a [FUND TYPE] fund that:
+- Achieved a return of [RETURN]% for the quarter
+- Explains performance relative to benchmark ([BENCHMARK])
+- Addresses key SA macro factors (load-shedding, rand volatility, SARB rates)
+- Maintains a confident but measured tone
+- Is no longer than 400 words
+- Ends with a forward-looking paragraph
+
+Client tier: [High Net Worth / Retail / Institutional]`,
+    saved: true, mine: false
+  },
+  {
+    id: 2,
+    title: "Contract Risk Flagging",
+    desc: "Systematically identify legal risks, unusual clauses, and missing standard provisions in a SA commercial contract.",
+    industry: "legal",
+    tags: ["analysis"],
+    uses: 634,
+    saves: 289,
+    prompt: `You are a senior commercial attorney at a top SA law firm with expertise in contract law and corporate transactions.
+
+Review the contract pasted below and produce a structured risk report:
+
+1. CRITICAL RISKS — Clauses that could create significant liability or loss
+2. UNUSUAL CLAUSES — Terms that deviate from market standard SA practice
+3. MISSING PROVISIONS — Standard clauses absent from this agreement
+4. POPIA COMPLIANCE — Any data protection gaps
+5. RECOMMENDED ACTIONS — Prioritised list of amendments needed
+
+For each item: state the clause reference, summarise the issue, and suggest remedial wording.
+
+[PASTE CONTRACT BELOW]`,
+    saved: true, mine: false
+  },
+  {
+    id: 3,
+    title: "Campaign Concept Generator",
+    desc: "Generate 3 distinct creative campaign concepts for a South African brand, with rationale and execution suggestions.",
+    industry: "marketing",
+    tags: ["strategy", "writing"],
+    uses: 521,
+    saves: 198,
+    prompt: `You are a Creative Director at a leading South African advertising agency with deep knowledge of local consumer culture, township markets, and multilingual SA audiences.
+
+Generate 3 distinct campaign concepts for:
+Brand: [BRAND NAME]
+Product/Service: [WHAT IS BEING ADVERTISED]
+Target Audience: [DEMOGRAPHIC + PSYCHOGRAPHIC]
+Campaign Objective: [AWARENESS / CONSIDERATION / CONVERSION]
+Budget tier: [MASS MARKET / MID / PREMIUM]
+
+For each concept provide:
+- Campaign name and tagline
+- Core insight (the human truth it taps into)
+- Creative idea and execution across 3 channels
+- Why it will resonate with a SA audience specifically`,
+    saved: false, mine: false
+  },
+  {
+    id: 4,
+    title: "Executive Strategy Memo",
+    desc: "Structure and write a sharp, one-page strategy memo for C-suite stakeholders.",
+    industry: "consulting",
+    tags: ["writing", "strategy"],
+    uses: 478,
+    saves: 201,
+    prompt: `You are a senior strategy consultant at a top-tier management consulting firm. You specialise in writing executive communications that are clear, evidence-based, and action-oriented.
+
+Write a one-page strategy memo to [AUDIENCE: e.g. CEO / Board / Exco] on the topic: [TOPIC].
+
+Structure:
+- Situation (2-3 sentences): what is happening
+- Complication (2-3 sentences): why this demands attention now
+- Resolution (3-4 bullet points): recommended course of action
+- Next steps (2-3 actions with owners and dates)
+
+Tone: authoritative, concise, no jargon. Maximum 350 words.
+
+Background context: [PASTE RELEVANT CONTEXT]`,
+    saved: true, mine: false
+  },
+  {
+    id: 5,
+    title: "Annual Report Summary",
+    desc: "Extract key financial highlights, risks, and strategic signals from a JSE-listed company's annual report.",
+    industry: "finance",
+    tags: ["analysis", "summarise"],
+    uses: 703,
+    saves: 267,
+    prompt: `You are a senior equity analyst at a JSE-focused asset manager.
+
+Analyse the annual report pasted below and produce:
+
+FINANCIAL HIGHLIGHTS
+- Revenue, EBITDA, HEPS (with YoY % changes)
+- Key balance sheet metrics (debt/equity, cash position)
+- Dividend declared and yield
+
+STRATEGIC SIGNALS
+- Management's stated priorities for next 12 months
+- Capital allocation decisions
+
+RED FLAGS
+- Any earnings quality concerns, disclaimers, or auditor notes
+- Unusual related-party transactions
+
+INVESTMENT SIGNAL: [Bullish / Neutral / Bearish] — one sentence rationale
+
+[PASTE ANNUAL REPORT EXTRACT BELOW]`,
+    saved: false, mine: false
+  },
+  {
+    id: 6,
+    title: "Cold Email — B2B Sales",
+    desc: "Write a high-converting cold email to a South African corporate decision-maker.",
+    industry: "general",
+    tags: ["email", "writing"],
+    uses: 915,
+    saves: 388,
+    prompt: `You are a senior B2B sales strategist with 12 years of experience selling to South African corporates and JSE-listed companies.
+
+Write a cold email from [YOUR COMPANY] to [TARGET COMPANY / ROLE].
+
+Context:
+- What we offer: [PRODUCT/SERVICE + KEY BENEFIT]
+- Specific proof point: [STAT, CASE STUDY, OR RESULT]
+- Pain point we solve: [SPECIFIC PROBLEM THEY LIKELY FACE]
+
+Requirements:
+- Under 150 words
+- Subject line included
+- Open with pain point, not product
+- One clear CTA at the end
+- Tone: confident, human, not salesy`,
+    saved: true, mine: false
+  },
+  {
+    id: 7,
+    title: "Legal Plain Language Rewrite",
+    desc: "Translate complex legal text into plain, accessible language for a non-legal audience.",
+    industry: "legal",
+    tags: ["writing", "summarise"],
+    uses: 389,
+    saves: 156,
+    prompt: `You are a legal communication specialist who translates complex South African legal documents into clear, plain language while preserving legal accuracy.
+
+Rewrite the clause(s) below in plain language suitable for [AUDIENCE: e.g. consumer / employee / board member].
+
+Requirements:
+- Use simple sentences (max 25 words each)
+- Replace legal jargon with everyday terms
+- Preserve all legal meaning and obligations
+- Flag any clauses that cannot be simplified without losing legal effect
+
+Original text:
+[PASTE LEGAL TEXT HERE]`,
+    saved: false, mine: false
+  },
+  {
+    id: 8,
+    title: "Social Media Content Pack",
+    desc: "Generate a week's worth of social posts for a SA brand across LinkedIn, Instagram, and X.",
+    industry: "marketing",
+    tags: ["writing"],
+    uses: 612,
+    saves: 245,
+    prompt: `You are a social media strategist for South African brands who understands local culture, current events, and platform-specific best practices.
+
+Create a 5-day social media content pack for:
+Brand: [BRAND NAME]
+Industry: [SECTOR]
+Brand tone: [e.g. Professional / Playful / Inspirational]
+Current focus: [CAMPAIGN / PRODUCT / TOPIC]
+
+For each day, provide:
+📌 LinkedIn post (150-200 words, professional, includes hook)
+📸 Instagram caption (80-100 words, visual hook, 5 hashtags)
+🐦 X/Twitter post (under 280 chars, punchy)
+
+Incorporate SA-relevant references where appropriate. Avoid generic AI-sounding language.`,
+    saved: false, mine: false
+  },
+  {
+    id: 9,
+    title: "Meeting Notes Synthesiser",
+    desc: "Transform raw meeting notes into a structured summary with decisions, actions, and owners.",
+    industry: "general",
+    tags: ["summarise", "analysis"],
+    uses: 1124,
+    saves: 467,
+    prompt: `You are an executive assistant who specialises in turning messy meeting notes into crisp, actionable summaries.
+
+Process the meeting notes below and produce a structured output:
+
+📋 MEETING SUMMARY (3-4 sentences)
+
+✅ DECISIONS MADE
+- [Decision + context]
+
+⚡ ACTION ITEMS
+| # | Action | Owner | Due Date |
+
+❓ OPEN QUESTIONS / PARKING LOT
+
+📅 NEXT MEETING: [date/time if mentioned]
+
+Keep it concise. If any information is missing or unclear, flag it with [UNCLEAR].
+
+Raw notes:
+[PASTE NOTES HERE]`,
+    saved: true, mine: false
+  },
+  {
+    id: 10,
+    title: "Competitor Analysis Framework",
+    desc: "Produce a structured competitor analysis for strategic planning or new market entry.",
+    industry: "consulting",
+    tags: ["analysis", "strategy"],
+    uses: 344,
+    saves: 143,
+    prompt: `You are a market intelligence analyst at a strategy consulting firm. You produce rigorous, insight-rich competitor analyses for C-suite clients.
+
+Analyse [COMPETITOR NAME] as a competitor to [OUR COMPANY] in the [MARKET / SECTOR] market.
+
+Framework:
+1. BUSINESS MODEL — How they make money, key revenue streams
+2. POSITIONING — Target segments, value proposition, messaging
+3. STRENGTHS — What they do exceptionally well
+4. WEAKNESSES — Gaps, vulnerabilities, customer complaints
+5. RECENT MOVES — Last 12 months strategic activity
+6. THREAT LEVEL — [High / Medium / Low] with rationale
+7. STRATEGIC RESPONSE — 3 actions we should consider
+
+Use the following context about them: [PASTE ANY KNOWN INFO / WEBSITE / REPORTS]`,
+    saved: false, mine: false
+  },
+  {
+    id: 11,
+    title: "POPIA Compliance Checker",
+    desc: "Assess a process, form, or document for POPIA compliance gaps and remediation steps.",
+    industry: "legal",
+    tags: ["analysis"],
+    uses: 298,
+    saves: 134,
+    prompt: `You are a POPIA (Protection of Personal Information Act) compliance specialist in South Africa.
+
+Review the document/process below and produce a POPIA compliance assessment:
+
+1. PERSONAL INFORMATION IDENTIFIED — List all personal info being collected/processed
+2. COMPLIANCE GAPS — Specific POPIA conditions not being met (reference the section)
+3. CONSENT ISSUES — Where consent is absent, insufficient, or incorrectly obtained
+4. DATA SUBJECT RIGHTS — How the process handles access, correction, objection rights
+5. REMEDIATION PRIORITY — High / Medium / Low items with suggested fixes
+
+Document/Process to review:
+[PASTE HERE]`,
+    saved: false, mine: false
+  },
+  {
+    id: 12,
+    title: "Job Description Writer",
+    desc: "Write an inclusive, compelling job description that attracts top SA talent.",
+    industry: "general",
+    tags: ["writing"],
+    uses: 534,
+    saves: 211,
+    prompt: `You are a talent acquisition specialist with deep knowledge of the South African job market and best practices in inclusive hiring.
+
+Write a job description for:
+Role: [JOB TITLE]
+Company: [COMPANY NAME + brief description]
+Location: [CITY / REMOTE / HYBRID]
+Seniority: [JUNIOR / MID / SENIOR]
+Key responsibilities: [LIST 4-6 MAIN DUTIES]
+Requirements: [MUST-HAVE skills and experience]
+
+Requirements for the JD:
+- Lead with impact, not tasks
+- Use inclusive language (avoid gendered terms)
+- Include a compelling "why join us" section
+- B-BBEE statement if applicable
+- Keep it under 450 words`,
+    saved: true, mine: false
+  }
+];
+
+// ── STATE ────────────────────────────────────────────────────────────
+let state = {
+  prompts: JSON.parse(JSON.stringify(PROMPTS)),
+  filter: 'all',
+  search: '',
+  sort: 'popular',
+  view: 'grid',
+  activeModal: null,
+  activePromptId: null,
+};
+
+// Load user saves from storage
+async function loadSaves() {
+  try {
+    const result = await window.storage.get('prompt-saves');
+    if (result) {
+      const saves = JSON.parse(result.value);
+      state.prompts.forEach(p => {
+        if (saves[p.id] !== undefined) p.saved = saves[p.id];
+      });
+    }
+  } catch(e) {}
+}
+
+async function persistSaves() {
+  try {
+    const saves = {};
+    state.prompts.forEach(p => saves[p.id] = p.saved);
+    await window.storage.set('prompt-saves', JSON.stringify(saves));
+  } catch(e) {}
+}
+
+// Load user-created prompts
+async function loadUserPrompts() {
+  try {
+    const result = await window.storage.get('user-prompts');
+    if (result) {
+      const userPrompts = JSON.parse(result.value);
+      state.prompts = [...PROMPTS, ...userPrompts];
+    }
+  } catch(e) {}
+}
+
+async function persistUserPrompts() {
+  try {
+    const userPrompts = state.prompts.filter(p => p.mine);
+    await window.storage.set('user-prompts', JSON.stringify(userPrompts));
+  } catch(e) {}
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────
+function getFilteredPrompts() {
+  let filtered = [...state.prompts];
+
+  if (state.filter === 'saved') filtered = filtered.filter(p => p.saved);
+  else if (state.filter === 'mine') filtered = filtered.filter(p => p.mine);
+  else if (state.filter !== 'all') {
+    filtered = filtered.filter(p =>
+      p.industry === state.filter || p.tags.includes(state.filter)
+    );
+  }
+
+  if (state.search) {
+    const q = state.search.toLowerCase();
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q) ||
+      p.tags.some(t => t.includes(q)) ||
+      p.industry.includes(q)
+    );
+  }
+
+  if (state.sort === 'popular') filtered.sort((a,b) => b.uses - a.uses);
+  else if (state.sort === 'newest') filtered.sort((a,b) => b.id - a.id);
+  else if (state.sort === 'saved') filtered.sort((a,b) => b.saves - a.saves);
+  else if (state.sort === 'az') filtered.sort((a,b) => a.title.localeCompare(b.title));
+
+  return filtered;
+}
+
+function industryClass(ind) {
+  return { finance:'ib-finance', legal:'ib-legal', marketing:'ib-marketing', consulting:'ib-consulting', general:'ib-general' }[ind] || 'ib-general';
+}
+function industryLabel(ind) {
+  return { finance:'Financial Services', legal:'Legal', marketing:'Marketing', consulting:'Consulting', general:'General' }[ind] || ind;
+}
+
+function renderCard(p, idx) {
+  const delay = Math.min(idx * 40, 300);
+  return `
+    <div class="prompt-card ${state.view === 'list' ? 'list-view' : ''}"
+         style="animation-delay:${delay}ms"
+         onclick="openDetailModal(${p.id})">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="industry-badge ${industryClass(p.industry)}">${industryLabel(p.industry)}</span>
+          ${p.mine ? '<span class="industry-badge" style="background:rgba(232,197,71,0.1);color:var(--accent)">Mine</span>' : ''}
+        </div>
+        <div class="card-actions" onclick="event.stopPropagation()">
+          <button class="icon-btn ${p.saved ? 'faved' : ''}" title="Save" onclick="toggleSave(${p.id}, this)">
+            ${p.saved ? '★' : '☆'}
+          </button>
+          <button class="icon-btn" title="Copy" onclick="copyPrompt(${p.id}, this)">📋</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="prompt-preview">${p.prompt.substring(0,180)}…</div>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags">
+          ${p.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}
+        </div>
+        <div class="card-stats">
+          <span class="card-stat">👁 ${p.uses.toLocaleString()}</span>
+          <span class="card-stat">★ ${p.saves}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function render() {
+  const filtered = getFilteredPrompts();
+  const grid = document.getElementById('prompt-grid');
+  const empty = document.getElementById('empty-state');
+  const label = document.getElementById('results-label');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    grid.style.display = 'none';
+    empty.classList.add('visible');
+  } else {
+    grid.style.display = '';
+    empty.classList.remove('visible');
+    grid.innerHTML = filtered.map((p, i) => renderCard(p, i)).join('');
+    grid.className = `prompt-grid ${state.view === 'list' ? 'list-view' : ''}`;
+  }
+
+  label.textContent = `${filtered.length} prompt${filtered.length !== 1 ? 's' : ''}`;
+
+  // Update sidebar counts
+  document.getElementById('count-all').textContent = state.prompts.length;
+  document.getElementById('count-saved').textContent = state.prompts.filter(p => p.saved).length;
+  document.getElementById('count-mine').textContent = state.prompts.filter(p => p.mine).length;
+}
+
+// ── INTERACTIONS ─────────────────────────────────────────────────────
+function handleSearch(val) {
+  state.search = val;
+  render();
+}
+
+function handleSort(val) {
+  state.sort = val;
+  render();
+}
+
+function setView(v) {
+  state.view = v;
+  document.getElementById('vt-grid').classList.toggle('active', v === 'grid');
+  document.getElementById('vt-list').classList.toggle('active', v === 'list');
+  render();
+}
+
+function quickFilter(filter, el) {
+  state.filter = filter;
+  state.search = '';
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function filterCategory(cat, navEl) {
+  state.filter = cat;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+  render();
+}
+
+function filterIndustry(ind, navEl) {
+  state.filter = ind;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+  // Sync filter chips
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.filter === ind);
+  });
+  render();
+}
+
+function filterTag(tag, navEl) {
+  state.filter = tag;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.filter === tag);
+  });
+  render();
+}
+
+function toggleSave(id, btn) {
+  const p = state.prompts.find(x => x.id === id);
+  if (!p) return;
+  p.saved = !p.saved;
+  p.saves += p.saved ? 1 : -1;
+  btn.textContent = p.saved ? '★' : '☆';
+  btn.classList.toggle('faved', p.saved);
+  persistSaves();
+  render();
+}
+
+function copyPrompt(id, btn) {
+  const p = state.prompts.find(x => x.id === id);
+  if (!p) return;
+  navigator.clipboard.writeText(p.prompt).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+  p.uses++;
+}
+
+// ── DETAIL MODAL ─────────────────────────────────────────────────────
+function openDetailModal(id) {
+  const p = state.prompts.find(x => x.id === id);
+  if (!p) return;
+  state.activePromptId = id;
+
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-desc').textContent = p.desc;
+  document.getElementById('modal-prompt').textContent = p.prompt;
+  document.getElementById('modal-tags').textContent = p.tags.join(' · ');
+  document.getElementById('modal-industry-badge').innerHTML =
+    `<span class="industry-badge ${industryClass(p.industry)}">${industryLabel(p.industry)}</span>`;
+  document.getElementById('modal-fav-btn').textContent = p.saved ? '★ Saved' : '☆ Save to Library';
+  document.getElementById('sandbox-section').style.display = 'none';
+  document.getElementById('sandbox-response').style.display = 'none';
+  document.getElementById('sandbox-response').textContent = '';
+
+  document.getElementById('detail-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function copyModalPrompt() {
+  const p = state.prompts.find(x => x.id === state.activePromptId);
+  if (!p) return;
+  navigator.clipboard.writeText(p.prompt).then(() => {
+    const btn = document.getElementById('modal-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy Prompt', 1800);
+  });
+}
+
+function toggleModalFav() {
+  const p = state.prompts.find(x => x.id === state.activePromptId);
+  if (!p) return;
+  p.saved = !p.saved;
+  p.saves += p.saved ? 1 : -1;
+  document.getElementById('modal-fav-btn').textContent = p.saved ? '★ Saved' : '☆ Save to Library';
+  persistSaves();
+  render();
+}
+
+function loadSandbox() {
+  const p = state.prompts.find(x => x.id === state.activePromptId);
+  if (!p) return;
+  const section = document.getElementById('sandbox-section');
+  section.style.display = 'block';
+  document.getElementById('modal-sandbox-input').value = p.prompt;
+  section.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function runSandbox() {
+  const input = document.getElementById('modal-sandbox-input').value.trim();
+  const responseEl = document.getElementById('sandbox-response');
+  const btn = document.querySelector('.sandbox-run-btn');
+
+  if (!input) return;
+
+  responseEl.style.display = 'block';
+  responseEl.textContent = '';
+  responseEl.classList.add('typing-indicator');
+  btn.disabled = true;
+  btn.textContent = '⏳ Sending…';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'You are Claude, embedded in LeverageAI — a South African business AI learning platform. Respond helpfully and concisely to business prompts. Keep responses under 300 words and focused on practical business value.',
+        messages: [{ role: 'user', content: input }]
+      })
+    });
+
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'No response.';
+    responseEl.classList.remove('typing-indicator');
+    typeText(responseEl, text);
+  } catch(err) {
+    responseEl.classList.remove('typing-indicator');
+    responseEl.textContent = `Error: ${err.message}`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '▶ Send to Claude';
+  }
+}
+
+function typeText(el, text) {
+  el.textContent = '';
+  let i = 0;
+  const iv = setInterval(() => {
+    el.textContent += text[i++];
+    el.scrollTop = el.scrollHeight;
+    if (i >= text.length) clearInterval(iv);
+  }, 10);
+}
+
+// ── ADD PROMPT MODAL ─────────────────────────────────────────────────
+function openAddModal() {
+  document.getElementById('add-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+async function saveNewPrompt() {
+  const title = document.getElementById('add-title').value.trim();
+  const desc = document.getElementById('add-desc').value.trim();
+  const industry = document.getElementById('add-industry').value;
+  const category = document.getElementById('add-category').value;
+  const prompt = document.getElementById('add-prompt').value.trim();
+
+  if (!title || !prompt) {
+    alert('Please fill in at least a title and prompt.');
+    return;
+  }
+
+  const newPrompt = {
+    id: Date.now(),
+    title, desc, industry,
+    tags: [category],
+    uses: 0, saves: 0,
+    prompt,
+    saved: true,
+    mine: true
+  };
+
+  state.prompts.unshift(newPrompt);
+  await persistUserPrompts();
+  await persistSaves();
+
+  // Reset form
+  ['add-title','add-desc','add-prompt'].forEach(id => document.getElementById(id).value = '');
+  closeModal('add-modal');
+  state.filter = 'mine';
+  document.querySelectorAll('.nav-item').forEach((n,i) => n.classList.toggle('active', i === 2));
+  render();
+}
+
+// ── CLOSE MODAL ──────────────────────────────────────────────────────
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(b => {
+  b.addEventListener('click', e => {
+    if (e.target === b) closeModal(b.id);
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(b => closeModal(b.id));
+  }
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────
+async function init() {
+  await loadUserPrompts();
+  await loadSaves();
+  state.filter = 'all';
+  render();
+}
+
+init();
+</script>
+
+</body>
+</html>
