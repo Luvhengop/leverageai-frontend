@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeverageAI — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3d;
+    --accent: #e8c547;
+    --accent2: #4ecca3;
+    --text: #f0f0f8;
+    --muted: #6b6b8a;
+    --danger: #ff6b6b;
+    --success: #4ecca3;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+  background: var(–bg);
+  color: var(–text);
+  font-family: ‘DM Sans’, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  }
+
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 60% 50% at 20% 20%, rgba(232,197,71,0.06) 0%, transparent 55%),
+radial-gradient(ellipse 50% 40% at 80% 80%, rgba(78,204,163,0.05) 0%, transparent 55%);
+pointer-events: none;
+z-index: 0;
+}
+
+/* NAV */
+.nav {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 40px;
+border-bottom: 1px solid var(–border);
+position: relative;
+z-index: 1;
+}
+.logo-mark {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+font-weight: 700;
+color: var(–text);
+}
+.logo-mark span { color: var(–accent); }
+.nav-link {
+font-size: 14px;
+color: var(–muted);
+text-decoration: none;
+}
+.nav-link span { color: var(–accent); }
+
+/* MAIN */
+.main {
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 40px 20px;
+position: relative;
+z-index: 1;
+}
+
+.card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 24px;
+padding: 48px 40px;
+width: 100%;
+max-width: 420px;
+}
+
+.card-badge {
+font-size: 11px;
+text-transform: uppercase;
+letter-spacing: 2px;
+color: var(–accent);
+font-weight: 600;
+margin-bottom: 12px;
+}
+
+.card-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 32px;
+font-weight: 700;
+line-height: 1.2;
+margin-bottom: 8px;
+}
+
+.card-subtitle {
+font-size: 14px;
+color: var(–muted);
+margin-bottom: 36px;
+line-height: 1.6;
+}
+
+/* FORM */
+.form-group {
+margin-bottom: 20px;
+}
+
+.form-label {
+display: block;
+font-size: 12px;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: var(–muted);
+margin-bottom: 8px;
+}
+
+.form-input {
+width: 100%;
+background: var(–surface2);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 14px 16px;
+font-size: 15px;
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+outline: none;
+transition: border-color 0.2s;
+}
+
+.form-input:focus { border-color: var(–accent); }
+.form-input::placeholder { color: var(–muted); }
+
+.forgot-link {
+display: block;
+text-align: right;
+font-size: 12px;
+color: var(–muted);
+text-decoration: none;
+margin-top: 8px;
+transition: color 0.2s;
+}
+.forgot-link:hover { color: var(–accent); }
+
+.btn-signin {
+width: 100%;
+background: var(–accent);
+color: #0a0a0f;
+border: none;
+border-radius: 12px;
+padding: 16px;
+font-size: 15px;
+font-weight: 600;
+font-family: ‘DM Sans’, sans-serif;
+cursor: pointer;
+margin-top: 28px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+transition: opacity 0.2s;
+}
+.btn-signin:hover { opacity: 0.9; }
+.btn-signin:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.spinner {
+width: 16px;
+height: 16px;
+border: 2px solid rgba(0,0,0,0.3);
+border-top-color: #000;
+border-radius: 50%;
+animation: spin 0.7s linear infinite;
+display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.divider {
+display: flex;
+align-items: center;
+gap: 12px;
+margin: 28px 0;
+color: var(–muted);
+font-size: 12px;
+}
+.divider::before, .divider::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–border);
+}
+
+.signup-link {
+text-align: center;
+font-size: 14px;
+color: var(–muted);
+}
+.signup-link a {
+color: var(–accent);
+text-decoration: none;
+font-weight: 600;
+}
+
+/* ERROR / SUCCESS */
+.alert {
+border-radius: 10px;
+padding: 12px 16px;
+font-size: 13px;
+margin-bottom: 20px;
+display: none;
+}
+.alert-error {
+background: rgba(255,107,107,0.1);
+border: 1px solid rgba(255,107,107,0.3);
+color: var(–danger);
+}
+.alert-success {
+background: rgba(78,204,163,0.1);
+border: 1px solid rgba(78,204,163,0.3);
+color: var(–accent2);
+}
+</style>
+
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" style="text-decoration:none;">
+    <div class="logo-mark">Leverage<span>AI</span></div>
+  </a>
+  <a href="onboarding.html" class="nav-link">No account? <span>Start free →</span></a>
+</nav>
+
+<main class="main">
+  <div class="card">
+    <div class="card-badge">Welcome back</div>
+    <h1 class="card-title">Sign in to<br>LeverageAI</h1>
+    <p class="card-subtitle">Continue your AI learning journey.</p>
+
+```
+<div class="alert alert-error" id="error-msg"></div>
+<div class="alert alert-success" id="success-msg"></div>
+
+<div class="form-group">
+  <label class="form-label">Email address</label>
+  <input type="email" class="form-input" id="email" placeholder="you@example.com" autocomplete="email">
+</div>
+
+<div class="form-group">
+  <label class="form-label">Password</label>
+  <input type="password" class="form-input" id="password" placeholder="••••••••" autocomplete="current-password">
+  <a href="#" class="forgot-link" onclick="forgotPassword(event)">Forgot password?</a>
+</div>
+
+<button class="btn-signin" id="signin-btn" onclick="signIn()">
+  <div class="spinner" id="spinner"></div>
+  <span id="btn-text">Sign in →</span>
+</button>
+
+<div class="divider">or</div>
+
+<div class="signup-link">
+  New to LeverageAI? <a href="onboarding.html">Start for free</a>
+</div>
+```
+
+  </div>
+</main>
+
+<script>
+  const API = 'https://web-production-a8715f.up.railway.app';
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('success-msg').style.display = 'none';
+  }
+
+  function showSuccess(msg) {
+    const el = document.getElementById('success-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    document.getElementById('error-msg').style.display = 'none';
+  }
+
+  async function signIn() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      showError('Please enter your email and password.');
+      return;
+    }
+
+    const btn = document.getElementById('signin-btn');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btn-text');
+
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.textContent = 'Signing in…';
+
+    try {
+      const res = await fetch(`${API}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Invalid email or password');
+
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('refresh_token', data.refresh_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      showSuccess('Welcome back! Redirecting…');
+      setTimeout(() => window.location.href = 'app.html', 800);
+
+    } catch (err) {
+      showError(err.message);
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      btnText.textContent = 'Sign in →';
+    }
+  }
+
+  async function forgotPassword(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      showError('Enter your email address first, then tap "Forgot password?"');
+      return;
+    }
+    showSuccess('If an account exists for ' + email + ', a reset link will be sent shortly.');
+  }
+
+  // Enter key support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') signIn();
+  });
+
+  // If already logged in, redirect to app
+  if (localStorage.getItem('access_token')) {
+    window.location.href = 'app.html';
+  }
+</script>
+
+</body>
+</html>
