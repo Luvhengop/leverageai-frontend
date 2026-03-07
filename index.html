@@ -916,7 +916,7 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
   </ul>
   <div class="nav-cta">
     <button class="btn-nav-ghost" onclick="window.location.href='signin.html'">Sign in</button>
-    <button class="btn-nav-primary" onclick="window.location.href='leverage-ai-onboarding.html'">Start free →</button>
+    <button class="btn-nav-primary" onclick="window.location.href='onboarding.html'">Start free →</button>
   </div>
 </nav>
 
@@ -943,10 +943,10 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
 </p>
 
 <div class="hero-actions">
-  <button class="btn-hero-primary" onclick="window.location.href='leverage-ai-onboarding.html'">
+  <button class="btn-hero-primary" onclick="window.location.href='onboarding.html'">
     Start learning free →
   </button>
-  <button class="btn-hero-ghost">Watch 2-min demo</button>
+  <button class="btn-hero-ghost" onclick="document.getElementById("demo-modal").style.display="flex"">Watch 2-min demo</button>
 </div>
 <div class="hero-note">✓ No credit card &nbsp;·&nbsp; ✓ Free forever on basics &nbsp;·&nbsp; ✓ Cancel anytime</div>
 ```
@@ -1271,7 +1271,7 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
         <li class="price-feature"><span class="pf-check">✓</span> Prompt scoring</li>
         <li class="price-feature"><span class="pf-check">✓</span> Prompt of the Day</li>
       </ul>
-      <button class="btn-price btn-price-ghost" onclick="window.location.href='leverage-ai-onboarding.html'">Get started free</button>
+      <button class="btn-price btn-price-ghost" onclick="window.location.href='onboarding.html'">Get started free</button>
     </div>
 
 ```
@@ -1291,7 +1291,7 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
     <li class="price-feature"><span class="pf-check">✓</span> LinkedIn certificate</li>
     <li class="price-feature"><span class="pf-check">✓</span> Priority support</li>
   </ul>
-  <button class="btn-price btn-price-primary" onclick="window.location.href='leverage-ai-onboarding.html'">Start 7-day free trial</button>
+  <button class="btn-price btn-price-primary" onclick="window.location.href='onboarding.html'">Start 7-day free trial</button>
   <div class="price-note">R1,999/year if billed annually — save R389</div>
 </div>
 
@@ -1324,7 +1324,7 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
   <h2 class="section-title reveal">Your colleagues are<br>already <em>using AI.</em></h2>
   <p class="section-sub reveal">The question isn't whether AI will change your industry. It already has. The question is whether you'll be the one who knows how to use it best.</p>
   <div class="final-cta-actions reveal">
-    <button class="btn-hero-primary" onclick="window.location.href='leverage-ai-onboarding.html'">
+    <button class="btn-hero-primary" onclick="window.location.href='onboarding.html'">
       Start learning free →
     </button>
     <button class="btn-hero-ghost" style="border-color:#2a2820;color:#7a7468" onmouseover="this.style.color='#f0f0e8';this.style.borderColor='#f0f0e8'" onmouseout="this.style.color='#7a7468';this.style.borderColor='#2a2820'">
@@ -1343,8 +1343,8 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
     <a href="#">Pricing</a>
     <a href="#">Blog</a>
     <a href="#">Contact</a>
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
+    <a href="terms.html">Privacy</a>
+    <a href="terms.html">Terms</a>
   </div>
   <div class="footer-copy">© 2025 LeverageAI · Made in South Africa 🇿🇦</div>
 </footer>
@@ -1378,5 +1378,22 @@ footer { flex-direction: column; gap: 20px; text-align: center; }
   });
 </script>
 
+<!-- DEMO MODAL -->
+
+<div id="demo-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#12121a;border:1px solid #2a2a3d;border-radius:20px;max-width:560px;width:100%;padding:32px;position:relative;">
+    <button onclick="document.getElementById('demo-modal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#6b6b8a;font-size:22px;cursor:pointer;">✕</button>
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e8c547;font-weight:600;margin-bottom:12px;">2-MIN DEMO</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:16px;">See LeverageAI in action</h2>
+    <p style="color:#6b6b8a;font-size:14px;margin-bottom:24px;line-height:1.6;">LeverageAI teaches you to use Claude at a professional level — through interactive lessons, real business scenarios, and live practice. In just 15 minutes a day.</p>
+    <div style="background:#1a1a26;border:1px solid #2a2a3d;border-radius:12px;padding:20px;margin-bottom:24px;">
+      <div style="font-size:13px;color:#6b6b8a;margin-bottom:8px;">✦ Interactive AI lessons built for SA professionals</div>
+      <div style="font-size:13px;color:#6b6b8a;margin-bottom:8px;">✦ Practice with real business scenarios</div>
+      <div style="font-size:13px;color:#6b6b8a;margin-bottom:8px;">✦ Prompt library with 50+ business templates</div>
+      <div style="font-size:13px;color:#6b6b8a;">✦ Start free — no credit card required</div>
+    </div>
+    <button onclick="window.location.href='onboarding.html'" style="width:100%;background:#e8c547;color:#0a0a0f;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;">Start for free →</button>
+  </div>
+</div>
 </body>
 </html>
