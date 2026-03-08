@@ -1052,17 +1052,18 @@ margin-top: 20px;
           body: JSON.stringify({ email, password: pw, first_name: fname, last_name: lname })
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Signup failed');
+        if (!res.ok) throw new Error(data.error || data.message || 'Signup failed — ' + res.status);
         saveAuth(data);
+        btn.textContent = origText;
+        btn.disabled = false;
+        showVerifyModal(email);
+        return;
       } catch (err) {
-        showError(err.message);
+        showError('Error: ' + err.message + ' — Please try again or check your connection.');
         btn.textContent = origText;
         btn.disabled = false;
         return;
       }
-
-      btn.textContent = origText;
-      btn.disabled = false;
     }
 
     document.getElementById(`step-${currentStep}`).classList.remove('active');
@@ -1154,7 +1155,74 @@ margin-top: 20px;
     });
   }
 
-  // ── Launch ───────────────────────────────────────
+
+  // ── EMAIL VERIFICATION ────────────────────────────
+  let pendingVerifyEmail = '';
+
+  function showVerifyModal(emailAddr) {
+    pendingVerifyEmail = emailAddr;
+    document.getElementById('verify-email-display').textContent = emailAddr;
+    document.getElementById('verify-modal').style.display = 'flex';
+    setTimeout(() => document.getElementById('c1').focus(), 100);
+  }
+
+  function codeNext(input, nextId) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+    if (input.value && nextId) {
+      document.getElementById(nextId).focus();
+    }
+    const code = ['c1','c2','c3','c4','c5','c6'].map(id => document.getElementById(id).value).join('');
+    if (code.length === 6) verifyCode();
+  }
+
+  async function verifyCode() {
+    const code = ['c1','c2','c3','c4','c5','c6'].map(id => document.getElementById(id).value).join('');
+    if (code.length < 6) return;
+
+    const btn = document.getElementById('verify-btn');
+    btn.textContent = 'Verifying…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API}/api/auth/verify-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingVerifyEmail, code })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Invalid code');
+
+      document.getElementById('verify-modal').style.display = 'none';
+      document.getElementById('step-' + currentStep).classList.remove('active');
+      document.getElementById('step-2').classList.add('active');
+      updateDots(2);
+      currentStep = 2;
+
+    } catch (err) {
+      document.getElementById('verify-error').textContent = err.message;
+      document.getElementById('verify-error').style.display = 'block';
+      btn.textContent = 'Verify Email →';
+      btn.disabled = false;
+      ['c1','c2','c3','c4','c5','c6'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('c1').focus();
+    }
+  }
+
+  async function resendCode(e) {
+    e.preventDefault();
+    try {
+      await fetch(`${API}/api/auth/resend-verification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingVerifyEmail })
+      });
+      document.getElementById('verify-error').textContent = 'New code sent!';
+      document.getElementById('verify-error').style.color = '#4ecca3';
+      document.getElementById('verify-error').style.display = 'block';
+    } catch(e) {}
+  }
+
+  // ── LAUNCH APP ───────────────────────────────────
   function launchApp() {
     document.body.style.transition = 'opacity 0.5s';
     document.body.style.opacity = '0';
@@ -1164,5 +1232,38 @@ margin-top: 20px;
   }
 </script>
 
+<!-- EMAIL VERIFICATION MODAL -->
+
+<div id="verify-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#12121a;border:1px solid #2a2a3d;border-radius:24px;max-width:400px;width:100%;padding:40px 32px;text-align:center;">
+    <div style="font-size:40px;margin-bottom:16px;">📧</div>
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e8c547;font-weight:600;margin-bottom:12px;">Verify Your Email</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:12px;">Check your inbox</h2>
+    <p style="color:#6b6b8a;font-size:14px;margin-bottom:24px;line-height:1.6;">We sent a 6-digit code to <strong id="verify-email-display" style="color:#f0f0f8;"></strong></p>
+
+```
+<div style="display:flex;gap:8px;justify-content:center;margin-bottom:24px;">
+  <input type="text" maxlength="1" class="code-input" id="c1" oninput="codeNext(this,'c2')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+  <input type="text" maxlength="1" class="code-input" id="c2" oninput="codeNext(this,'c3')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+  <input type="text" maxlength="1" class="code-input" id="c3" oninput="codeNext(this,'c4')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+  <input type="text" maxlength="1" class="code-input" id="c4" oninput="codeNext(this,'c5')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+  <input type="text" maxlength="1" class="code-input" id="c5" oninput="codeNext(this,'c6')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+  <input type="text" maxlength="1" class="code-input" id="c6" oninput="codeNext(this,null)" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
+</div>
+
+<div id="verify-error" style="color:#ff6b6b;font-size:13px;margin-bottom:16px;display:none;"></div>
+
+<button id="verify-btn" onclick="verifyCode()" style="width:100%;background:#e8c547;color:#0a0a0f;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:16px;">
+  Verify Email →
+</button>
+
+<p style="color:#6b6b8a;font-size:13px;">
+  Didn't receive it? 
+  <a href="#" onclick="resendCode(event)" style="color:#e8c547;text-decoration:none;">Resend code</a>
+</p>
+```
+
+  </div>
+</div>
 </body>
 </html>
