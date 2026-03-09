@@ -1133,6 +1133,15 @@ transition: all 0.2s;
 </div>
 
 <script>
+  // ── AUTH GUARD ───────────────────────────────────────────────────
+  (function() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      window.location.replace('signin.html');
+      throw new Error('Redirecting to signin');
+    }
+  })();
+
   const API = 'https://web-production-a8715f.up.railway.app';
 
   // ── Load user from backend ────────────────────────────────────────
