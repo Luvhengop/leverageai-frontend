@@ -806,6 +806,7 @@ transition: all 0.2s; margin-top: 10px;
         if (!fname) document.getElementById('fname').style.borderColor = 'var(--danger)';
         if (!email) document.getElementById('email').style.borderColor = 'var(--danger)';
         if (pw.length < 8) document.getElementById('password').style.borderColor = 'var(--danger)';
+        alert("DEBUG — fname:[" + fname + "] email:[" + email + "] pwlen:" + pw.length);
         showError('Please fill in all fields. Password must be at least 8 characters.');
         return;
       }
