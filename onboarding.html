@@ -30,7 +30,6 @@ display: flex;
 overflow: hidden;
 }
 
-/* ── BACKGROUND EFFECTS ── */
 .bg-layer {
 position: fixed;
 inset: 0;
@@ -48,7 +47,6 @@ radial-gradient(ellipse 50% 50% at 90% 90%, rgba(78,204,163,0.07) 0%, transparen
 radial-gradient(ellipse 40% 40% at 50% 50%, rgba(20,20,40,0.5) 0%, transparent 80%);
 }
 
-/* Floating orbs */
 .orb {
 position: absolute;
 border-radius: 50%;
@@ -64,7 +62,6 @@ animation: drift 12s ease-in-out infinite;
 66% { transform: translate(-20px, 30px); }
 }
 
-/* ── LAYOUT ── */
 .split {
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -74,7 +71,6 @@ position: relative;
 z-index: 1;
 }
 
-/* ── LEFT PANEL ── */
 .left-panel {
 background: linear-gradient(160deg, #0e0e18 0%, #0a0a0f 100%);
 border-right: 1px solid var(–border);
@@ -151,7 +147,6 @@ max-width: 380px;
 margin-bottom: 40px;
 }
 
-/* Testimonial */
 .testimonial {
 background: rgba(255,255,255,0.03);
 border: 1px solid var(–border);
@@ -198,14 +193,12 @@ flex-shrink: 0;
 .t-name { font-size: 13px; font-weight: 600; }
 .t-role { font-size: 11px; color: var(–muted); }
 
-/* Stats row */
 .stats-strip {
 display: flex;
 gap: 32px;
 margin-top: 40px;
 }
 
-.stat-item {}
 .stat-num {
 font-family: ‘Playfair Display’, serif;
 font-size: 28px;
@@ -215,7 +208,6 @@ line-height: 1;
 }
 .stat-lbl { font-size: 11px; color: var(–muted); margin-top: 3px; }
 
-/* ── RIGHT PANEL ── */
 .right-panel {
 display: flex;
 align-items: center;
@@ -229,7 +221,6 @@ width: 100%;
 max-width: 440px;
 }
 
-/* ── STEP INDICATOR ── */
 .step-indicator {
 display: flex;
 align-items: center;
@@ -248,22 +239,9 @@ position: relative;
 z-index: 1;
 }
 
-.step-dot.done {
-background: var(–accent2);
-color: var(–bg);
-}
-
-.step-dot.active {
-background: var(–accent);
-color: var(–bg);
-box-shadow: 0 0 0 4px rgba(232,197,71,0.2);
-}
-
-.step-dot.upcoming {
-background: var(–surface2);
-color: var(–muted);
-border: 1px solid var(–border);
-}
+.step-dot.done { background: var(–accent2); color: var(–bg); }
+.step-dot.active { background: var(–accent); color: var(–bg); box-shadow: 0 0 0 4px rgba(232,197,71,0.2); }
+.step-dot.upcoming { background: var(–surface2); color: var(–muted); border: 1px solid var(–border); }
 
 .step-line {
 flex: 1;
@@ -288,7 +266,6 @@ transition: color 0.3s;
 }
 .step-label-item.active { color: var(–accent); }
 
-/* ── STEPS ── */
 .step { display: none; animation: stepIn 0.35s ease-out; }
 .step.active { display: block; }
 
@@ -321,10 +298,7 @@ line-height: 1.6;
 margin-bottom: 28px;
 }
 
-/* ── FORM ELEMENTS ── */
-.field {
-margin-bottom: 16px;
-}
+.field { margin-bottom: 16px; }
 
 .field label {
 display: block;
@@ -355,10 +329,8 @@ box-shadow: 0 0 0 3px rgba(232,197,71,0.08);
 }
 
 .field input::placeholder { color: var(–muted); }
-
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-/* Social login */
 .social-row {
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -393,7 +365,6 @@ margin-bottom: 20px;
 .divider-line { flex: 1; height: 1px; background: var(–border); }
 .divider span { font-size: 11px; color: var(–muted); white-space: nowrap; }
 
-/* ── INDUSTRY CARDS ── */
 .industry-grid {
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -411,14 +382,6 @@ transition: all 0.2s;
 text-align: left;
 position: relative;
 overflow: hidden;
-}
-
-.industry-card::before {
-content: ‘’;
-position: absolute;
-inset: 0;
-opacity: 0;
-transition: opacity 0.2s;
 }
 
 .industry-card:hover { border-color: rgba(232,197,71,0.3); }
@@ -445,22 +408,8 @@ display: flex; align-items: center; justify-content: center;
 .industry-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
 .industry-desc { font-size: 11px; color: var(–muted); line-height: 1.4; }
 
-/* ── QUIZ ── */
-.quiz-question {
-font-size: 15px;
-font-weight: 600;
-margin-bottom: 14px;
-line-height: 1.5;
-}
-
-.quiz-q-num {
-font-size: 10px;
-text-transform: uppercase;
-letter-spacing: 2px;
-color: var(–accent2);
-margin-bottom: 6px;
-font-weight: 600;
-}
+.quiz-question { font-size: 15px; font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
+.quiz-q-num { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(–accent2); margin-bottom: 6px; font-weight: 600; }
 
 .quiz-options {
 display: flex;
@@ -484,12 +433,7 @@ gap: 12px;
 }
 
 .quiz-option:hover { border-color: rgba(232,197,71,0.25); background: var(–surface2); }
-
-.quiz-option.selected {
-border-color: var(–accent);
-background: rgba(232,197,71,0.06);
-color: var(–accent);
-}
+.quiz-option.selected { border-color: var(–accent); background: rgba(232,197,71,0.06); color: var(–accent); }
 
 .quiz-opt-letter {
 width: 24px; height: 24px;
@@ -497,41 +441,19 @@ background: var(–surface2);
 border: 1px solid var(–border);
 border-radius: 6px;
 display: flex; align-items: center; justify-content: center;
-font-size: 11px;
-font-weight: 700;
-color: var(–muted);
-flex-shrink: 0;
-transition: all 0.2s;
+font-size: 11px; font-weight: 700; color: var(–muted);
+flex-shrink: 0; transition: all 0.2s;
 font-family: ‘DM Mono’, monospace;
 }
 
-.quiz-option.selected .quiz-opt-letter {
-background: var(–accent);
-color: var(–bg);
-border-color: var(–accent);
-}
+.quiz-option.selected .quiz-opt-letter { background: var(–accent); color: var(–bg); border-color: var(–accent); }
 
-.quiz-progress {
-display: flex;
-gap: 4px;
-margin-bottom: 20px;
-}
-
-.q-pip {
-flex: 1;
-height: 3px;
-background: var(–border);
-border-radius: 2px;
-transition: background 0.3s;
-}
+.quiz-progress { display: flex; gap: 4px; margin-bottom: 20px; }
+.q-pip { flex: 1; height: 3px; background: var(–border); border-radius: 2px; transition: background 0.3s; }
 .q-pip.done { background: var(–accent2); }
 .q-pip.active { background: var(–accent); }
 
-/* ── PATH REVEAL ── */
-.path-reveal {
-text-align: center;
-padding: 8px 0;
-}
+.path-reveal { text-align: center; padding: 8px 0; }
 
 .path-badge {
 display: inline-flex;
@@ -547,36 +469,13 @@ font-weight: 600;
 margin-bottom: 20px;
 }
 
-.path-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 24px;
-font-weight: 700;
-margin-bottom: 8px;
-line-height: 1.3;
-}
+.path-title { font-family: ‘Playfair Display’, serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+.path-sub { font-size: 13px; color: var(–muted); line-height: 1.7; margin-bottom: 28px; max-width: 340px; margin-left: auto; margin-right: auto; }
 
-.path-sub {
-font-size: 13px;
-color: var(–muted);
-line-height: 1.7;
-margin-bottom: 28px;
-max-width: 340px;
-margin-left: auto;
-margin-right: auto;
-}
-
-.path-courses {
-display: flex;
-flex-direction: column;
-gap: 8px;
-margin-bottom: 28px;
-text-align: left;
-}
+.path-courses { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; text-align: left; }
 
 .path-course {
-display: flex;
-align-items: center;
-gap: 12px;
+display: flex; align-items: center; gap: 12px;
 padding: 12px 16px;
 background: var(–surface);
 border: 1px solid var(–border);
@@ -588,95 +487,48 @@ animation: slideUp 0.4s ease-out both;
 .path-course:nth-child(2) { animation-delay: 0.2s; }
 .path-course:nth-child(3) { animation-delay: 0.3s; }
 
-@keyframes slideUp {
-from { opacity: 0; transform: translateY(10px); }
-to { opacity: 1; transform: translateY(0); }
-}
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.path-course-icon {
-font-size: 20px;
-width: 36px; height: 36px;
-background: var(–surface2);
-border-radius: 8px;
-display: flex; align-items: center; justify-content: center;
-flex-shrink: 0;
-}
-
+.path-course-icon { font-size: 20px; width: 36px; height: 36px; background: var(–surface2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .path-course-info { flex: 1; }
 .path-course-name { font-size: 13px; font-weight: 600; }
 .path-course-meta { font-size: 11px; color: var(–muted); margin-top: 2px; }
-
-.path-course-tag {
-font-size: 10px;
-font-weight: 700;
-padding: 3px 8px;
-border-radius: 4px;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
+.path-course-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 .tag-free { background: rgba(78,204,163,0.15); color: var(–accent2); }
 .tag-premium { background: rgba(232,197,71,0.12); color: var(–accent); }
 
-/* ── BUTTONS ── */
 .btn-primary {
-width: 100%;
-padding: 14px;
-background: var(–accent);
-color: var(–bg);
-border: none;
-border-radius: 12px;
-font-size: 14px;
-font-weight: 700;
-cursor: pointer;
+width: 100%; padding: 14px;
+background: var(–accent); color: var(–bg);
+border: none; border-radius: 12px;
+font-size: 14px; font-weight: 700; cursor: pointer;
 font-family: ‘DM Sans’, sans-serif;
 transition: opacity 0.2s, transform 0.15s;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
+display: flex; align-items: center; justify-content: center; gap: 8px;
 letter-spacing: 0.2px;
 }
 .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-ghost {
-width: 100%;
-padding: 13px;
-background: none;
-color: var(–muted);
-border: 1px solid var(–border);
-border-radius: 12px;
-font-size: 14px;
-font-weight: 500;
-cursor: pointer;
+width: 100%; padding: 13px;
+background: none; color: var(–muted);
+border: 1px solid var(–border); border-radius: 12px;
+font-size: 14px; font-weight: 500; cursor: pointer;
 font-family: ‘DM Sans’, sans-serif;
-transition: all 0.2s;
-margin-top: 10px;
+transition: all 0.2s; margin-top: 10px;
 }
 .btn-ghost:hover { color: var(–text); border-color: rgba(240,240,248,0.2); }
 
-.terms-note {
-font-size: 11px;
-color: var(–muted);
-text-align: center;
-margin-top: 14px;
-line-height: 1.6;
-}
+.terms-note { font-size: 11px; color: var(–muted); text-align: center; margin-top: 14px; line-height: 1.6; }
 .terms-note a { color: var(–accent); text-decoration: none; }
 
-.signin-link {
-font-size: 13px;
-color: var(–muted);
-text-align: center;
-margin-top: 20px;
-}
+.signin-link { font-size: 13px; color: var(–muted); text-align: center; margin-top: 20px; }
 .signin-link a { color: var(–accent); text-decoration: none; font-weight: 600; }
 
-/* ── PASSWORD STRENGTH ── */
 .pw-strength { margin-top: 8px; display: flex; gap: 4px; }
 .pw-bar { flex: 1; height: 3px; background: var(–border); border-radius: 2px; transition: background 0.3s; }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 860px) {
 .split { grid-template-columns: 1fr; }
 .left-panel { display: none; }
@@ -694,65 +546,41 @@ margin-top: 20px;
 
 <div class="split">
 
-  <!-- ── LEFT PANEL ── -->
+  <!-- LEFT PANEL -->
 
   <div class="left-panel">
     <div class="logo">
       <div class="logo-mark">Leverage<span>AI</span></div>
       <div class="logo-dot"></div>
     </div>
-
-```
-<div class="left-content">
-  <div class="left-eyebrow">For SA Business Professionals</div>
-  <h1 class="left-heading">
-    Master Claude.<br>
-    <em>Outperform</em><br>
-    everyone else.
-  </h1>
-  <p class="left-sub">
-    Interactive lessons that teach you to use AI the way top professionals do — with real business scenarios, live practice, and instant feedback.
-  </p>
-
-  <div class="testimonial">
-    <p class="testimonial-text">
-      Within two weeks I was writing better briefs, analysing reports faster, and impressing my MD. This is the most practical AI course I've seen.
-    </p>
-    <div class="testimonial-author">
-      <div class="t-avatar">NM</div>
-      <div>
-        <div class="t-name">Nandi Mokoena</div>
-        <div class="t-role">Senior Associate · Webber Wentzel, JHB</div>
+    <div class="left-content">
+      <div class="left-eyebrow">For SA Business Professionals</div>
+      <h1 class="left-heading">Master Claude.<br><em>Outperform</em><br>everyone else.</h1>
+      <p class="left-sub">Interactive lessons that teach you to use AI the way top professionals do — with real business scenarios, live practice, and instant feedback.</p>
+      <div class="testimonial">
+        <p class="testimonial-text">Within two weeks I was writing better briefs, analysing reports faster, and impressing my MD. This is the most practical AI course I've seen.</p>
+        <div class="testimonial-author">
+          <div class="t-avatar">NM</div>
+          <div>
+            <div class="t-name">Nandi Mokoena</div>
+            <div class="t-role">Senior Associate · Webber Wentzel, JHB</div>
+          </div>
+        </div>
+      </div>
+      <div class="stats-strip">
+        <div class="stat-item"><div class="stat-num">2,400+</div><div class="stat-lbl">SA professionals</div></div>
+        <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-lbl">Average rating</div></div>
+        <div class="stat-item"><div class="stat-num">R199</div><div class="stat-lbl">Per month premium</div></div>
       </div>
     </div>
   </div>
 
-  <div class="stats-strip">
-    <div class="stat-item">
-      <div class="stat-num">2,400+</div>
-      <div class="stat-lbl">SA professionals</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">4.9★</div>
-      <div class="stat-lbl">Average rating</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">R199</div>
-      <div class="stat-lbl">Per month premium</div>
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-
-  <!-- ── RIGHT PANEL ── -->
+  <!-- RIGHT PANEL -->
 
   <div class="right-panel">
     <div class="form-container">
 
 ```
-  <!-- Step indicator -->
   <div class="step-indicator">
     <div class="step-dot active" id="dot-1">1</div>
     <div class="step-line" id="line-1"></div>
@@ -769,7 +597,7 @@ margin-top: 20px;
     <div class="step-label-item" id="lbl-4">Path</div>
   </div>
 
-  <!-- ── STEP 1: Account ── -->
+  <!-- STEP 1 -->
   <div class="step active" id="step-1">
     <div class="step-eyebrow">Step 1 of 4</div>
     <h2 class="step-title">Create your account</h2>
@@ -793,20 +621,11 @@ margin-top: 20px;
     </div>
 
     <div class="field-row">
-      <div class="field">
-        <label>First Name</label>
-        <input type="text" placeholder="Thabo" id="fname">
-      </div>
-      <div class="field">
-        <label>Last Name</label>
-        <input type="text" placeholder="Mokoena" id="lname">
-      </div>
+      <div class="field"><label>First Name</label><input type="text" placeholder="Thabo" id="fname"></div>
+      <div class="field"><label>Last Name</label><input type="text" placeholder="Mokoena" id="lname"></div>
     </div>
 
-    <div class="field">
-      <label>Work Email</label>
-      <input type="email" placeholder="thabo@company.co.za" id="email">
-    </div>
+    <div class="field"><label>Work Email</label><input type="email" placeholder="thabo@company.co.za" id="email"></div>
 
     <div class="field">
       <label>Password</label>
@@ -819,15 +638,12 @@ margin-top: 20px;
       </div>
     </div>
 
-    <button class="btn-primary" onclick="nextStep(2)">
-      Create Free Account →
-    </button>
-
-    <p class="terms-note">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. No credit card required.</p>
+    <button class="btn-primary" onclick="nextStep(2)">Create Free Account →</button>
+    <p class="terms-note">By signing up you agree to our <a href="terms.html">Terms of Service</a> and <a href="terms.html">Privacy Policy</a>. No credit card required.</p>
     <p class="signin-link">Already have an account? <a href="signin.html">Sign in</a></p>
   </div>
 
-  <!-- ── STEP 2: Industry ── -->
+  <!-- STEP 2 -->
   <div class="step" id="step-2">
     <div class="step-eyebrow">Step 2 of 4</div>
     <h2 class="step-title">What's your field?</h2>
@@ -866,13 +682,11 @@ margin-top: 20px;
       </div>
     </div>
 
-    <button class="btn-primary" id="industry-btn" onclick="handleIndustryContinue()" style="opacity:0.4;cursor:not-allowed;">
-      Continue →
-    </button>
+    <button class="btn-primary" id="industry-btn" onclick="handleIndustryContinue()" style="opacity:0.4;cursor:not-allowed;">Continue →</button>
     <button class="btn-ghost" onclick="nextStep(1)">← Back</button>
   </div>
 
-  <!-- ── STEP 3: Skills Quiz ── -->
+  <!-- STEP 3 -->
   <div class="step" id="step-3">
     <div class="step-eyebrow">Step 3 of 4</div>
     <h2 class="step-title">Quick skills check</h2>
@@ -884,108 +698,67 @@ margin-top: 20px;
       <div class="q-pip" id="qp3"></div>
     </div>
 
-    <!-- Q1 -->
     <div id="q1" class="quiz-q">
       <div class="quiz-q-num">Question 1 of 3</div>
       <div class="quiz-question">How often do you currently use AI tools like Claude or ChatGPT for work?</div>
       <div class="quiz-options">
-        <div class="quiz-option" onclick="selectQuizOption(this, 1)">
-          <div class="quiz-opt-letter">A</div> Never used AI tools for work
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 1)">
-          <div class="quiz-opt-letter">B</div> Occasionally — a few times a month
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 1)">
-          <div class="quiz-opt-letter">C</div> Regularly — several times a week
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 1)">
-          <div class="quiz-opt-letter">D</div> Daily — it's part of my workflow
-        </div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 1)"><div class="quiz-opt-letter">A</div> Never used AI tools for work</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 1)"><div class="quiz-opt-letter">B</div> Occasionally — a few times a month</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 1)"><div class="quiz-opt-letter">C</div> Regularly — several times a week</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 1)"><div class="quiz-opt-letter">D</div> Daily — it's part of my workflow</div>
       </div>
     </div>
 
-    <!-- Q2 -->
     <div id="q2" class="quiz-q" style="display:none">
       <div class="quiz-q-num">Question 2 of 3</div>
       <div class="quiz-question">Which of these prompts would get a better result from Claude?</div>
       <div class="quiz-options">
-        <div class="quiz-option" onclick="selectQuizOption(this, 2)">
-          <div class="quiz-opt-letter">A</div> "Write me an email"
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 2)">
-          <div class="quiz-opt-letter">B</div> "Write a cold email to a retail bank CEO introducing our fintech payment solution, under 150 words, professional tone"
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 2)">
-          <div class="quiz-opt-letter">C</div> "Be creative and write something nice"
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 2)">
-          <div class="quiz-opt-letter">D</div> "I need an email please make it good"
-        </div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 2)"><div class="quiz-opt-letter">A</div> "Write me an email"</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 2)"><div class="quiz-opt-letter">B</div> "Write a cold email to a retail bank CEO introducing our fintech payment solution, under 150 words, professional tone"</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 2)"><div class="quiz-opt-letter">C</div> "Be creative and write something nice"</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 2)"><div class="quiz-opt-letter">D</div> "I need an email please make it good"</div>
       </div>
     </div>
 
-    <!-- Q3 -->
     <div id="q3" class="quiz-q" style="display:none">
       <div class="quiz-q-num">Question 3 of 3</div>
       <div class="quiz-question">What's your biggest goal with AI at work?</div>
       <div class="quiz-options">
-        <div class="quiz-option" onclick="selectQuizOption(this, 3)">
-          <div class="quiz-opt-letter">A</div> Save time on repetitive writing tasks
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 3)">
-          <div class="quiz-opt-letter">B</div> Improve quality of my work output
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 3)">
-          <div class="quiz-opt-letter">C</div> Automate complex workflows
-        </div>
-        <div class="quiz-option" onclick="selectQuizOption(this, 3)">
-          <div class="quiz-opt-letter">D</div> Stay ahead of colleagues & competitors
-        </div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 3)"><div class="quiz-opt-letter">A</div> Save time on repetitive writing tasks</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 3)"><div class="quiz-opt-letter">B</div> Improve quality of my work output</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 3)"><div class="quiz-opt-letter">C</div> Automate complex workflows</div>
+        <div class="quiz-option" onclick="selectQuizOption(this, 3)"><div class="quiz-opt-letter">D</div> Stay ahead of colleagues & competitors</div>
       </div>
     </div>
 
     <button class="btn-ghost" onclick="nextStep(2)">← Back</button>
   </div>
 
-  <!-- ── STEP 4: Path Reveal ── -->
+  <!-- STEP 4 -->
   <div class="step" id="step-4">
     <div class="path-reveal">
       <div class="path-badge">✦ Your personalised path is ready</div>
       <h2 class="path-title">You're starting at<br><span style="color:var(--accent)">Core Skills</span></h2>
       <p class="path-sub">Based on your industry and assessment, we've built you a focused learning path. Estimated time to complete: <strong style="color:var(--text)">3 weeks</strong> at 15 mins/day.</p>
     </div>
-
     <div class="path-courses">
       <div class="path-course">
         <div class="path-course-icon">🧠</div>
-        <div class="path-course-info">
-          <div class="path-course-name">Claude Foundations</div>
-          <div class="path-course-meta">5 lessons · 5 min each</div>
-        </div>
+        <div class="path-course-info"><div class="path-course-name">Claude Foundations</div><div class="path-course-meta">5 lessons · 5 min each</div></div>
         <span class="path-course-tag tag-free">Free</span>
       </div>
       <div class="path-course">
         <div class="path-course-icon">✍️</div>
-        <div class="path-course-info">
-          <div class="path-course-name">Effective Prompting</div>
-          <div class="path-course-meta">6 lessons · 15 min each</div>
-        </div>
+        <div class="path-course-info"><div class="path-course-name">Effective Prompting</div><div class="path-course-meta">6 lessons · 15 min each</div></div>
         <span class="path-course-tag tag-free">Free</span>
       </div>
       <div class="path-course">
         <div class="path-course-icon">💼</div>
-        <div class="path-course-info">
-          <div class="path-course-name">Industry Module — Your Field</div>
-          <div class="path-course-meta">7 lessons · 30 min each</div>
-        </div>
+        <div class="path-course-info"><div class="path-course-name">Industry Module — Your Field</div><div class="path-course-meta">7 lessons · 30 min each</div></div>
         <span class="path-course-tag tag-premium">Premium</span>
       </div>
     </div>
-
-    <button class="btn-primary" onclick="launchApp()">
-      🚀 Start Learning — It's Free
-    </button>
-
+    <button class="btn-primary" onclick="launchApp()">🚀 Start Learning — It's Free</button>
     <p class="terms-note" style="margin-top:16px;">Premium unlock from <strong style="color:var(--accent)">R199/month</strong> — cancel anytime.</p>
   </div>
 
@@ -993,7 +766,6 @@ margin-top: 20px;
 ```
 
   </div>
-
 </div>
 
 <script>
@@ -1004,7 +776,6 @@ margin-top: 20px;
   const quizAnswers = {};
   let selectedIndustry = 'general';
 
-  // ── API Helpers ───────────────────────────────────
   function saveAuth(data) {
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('refresh_token', data.refresh_token);
@@ -1024,7 +795,6 @@ margin-top: 20px;
     setTimeout(() => el.style.display = 'none', 4000);
   }
 
-  // ── Step navigation ──────────────────────────────
   async function nextStep(n) {
     if (n === 2 && currentStep === 1) {
       const fname = document.getElementById('fname').value.trim();
@@ -1053,11 +823,18 @@ margin-top: 20px;
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || data.message || 'Signup failed — ' + res.status);
+
         saveAuth(data);
         btn.textContent = origText;
         btn.disabled = false;
-        showVerifyModal(email);
+
+        // ── Skip email verification until Zoho is configured ──
+        document.getElementById(`step-${currentStep}`).classList.remove('active');
+        document.getElementById('step-2').classList.add('active');
+        updateDots(2);
+        currentStep = 2;
         return;
+
       } catch (err) {
         showError('Error: ' + err.message + ' — Please try again or check your connection.');
         btn.textContent = origText;
@@ -1085,14 +862,13 @@ margin-top: 20px;
     }
   }
 
-  // ── Industry selection ───────────────────────────
   let industrySelected = false;
 
   function selectIndustry(el) {
     document.querySelectorAll('.industry-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     industrySelected = true;
-    selectedIndustry = el.dataset.industry || el.querySelector('h3')?.textContent.toLowerCase() || 'general';
+    selectedIndustry = el.querySelector('.industry-name')?.textContent.toLowerCase() || 'general';
     const btn = document.getElementById('industry-btn');
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
@@ -1111,159 +887,44 @@ margin-top: 20px;
     nextStep(3);
   }
 
-  // ── Quiz ─────────────────────────────────────────
   function selectQuizOption(el, qNum) {
     const opts = el.parentElement.querySelectorAll('.quiz-option');
     opts.forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     quizAnswers[qNum] = el.textContent.trim().charAt(0);
 
-    // Auto advance after 500ms
     setTimeout(() => {
       if (qNum < 3) {
         document.getElementById(`q${qNum}`).style.display = 'none';
         document.getElementById(`q${qNum + 1}`).style.display = 'block';
         quizStep++;
-
-        // Update pips
         document.getElementById(`qp${qNum}`).className = 'q-pip done';
         document.getElementById(`qp${qNum + 1}`).className = 'q-pip active';
       } else {
-        // Done — go to step 4
         nextStep(4);
       }
     }, 500);
   }
 
-  // ── Password strength ────────────────────────────
   function updatePwStrength(val) {
     const bars = [1,2,3,4].map(i => document.getElementById(`pw${i}`));
-    const len = val.length;
-    const hasUpper = /[A-Z]/.test(val);
-    const hasNum = /[0-9]/.test(val);
-    const hasSpecial = /[^A-Za-z0-9]/.test(val);
-
     let strength = 0;
-    if (len >= 6) strength++;
-    if (len >= 10) strength++;
-    if (hasUpper && hasNum) strength++;
-    if (hasSpecial) strength++;
-
+    if (val.length >= 6) strength++;
+    if (val.length >= 10) strength++;
+    if (/[A-Z]/.test(val) && /[0-9]/.test(val)) strength++;
+    if (/[^A-Za-z0-9]/.test(val)) strength++;
     const colors = ['var(--danger)', 'var(--danger)', 'var(--accent)', 'var(--accent2)'];
     bars.forEach((b, i) => {
       b.style.background = i < strength ? colors[strength - 1] : 'var(--border)';
     });
   }
 
-
-  // ── EMAIL VERIFICATION ────────────────────────────
-  let pendingVerifyEmail = '';
-
-  function showVerifyModal(emailAddr) {
-    pendingVerifyEmail = emailAddr;
-    document.getElementById('verify-email-display').textContent = emailAddr;
-    document.getElementById('verify-modal').style.display = 'flex';
-    setTimeout(() => document.getElementById('c1').focus(), 100);
-  }
-
-  function codeNext(input, nextId) {
-    input.value = input.value.replace(/[^0-9]/g, '');
-    if (input.value && nextId) {
-      document.getElementById(nextId).focus();
-    }
-    const code = ['c1','c2','c3','c4','c5','c6'].map(id => document.getElementById(id).value).join('');
-    if (code.length === 6) verifyCode();
-  }
-
-  async function verifyCode() {
-    const code = ['c1','c2','c3','c4','c5','c6'].map(id => document.getElementById(id).value).join('');
-    if (code.length < 6) return;
-
-    const btn = document.getElementById('verify-btn');
-    btn.textContent = 'Verifying…';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch(`${API}/api/auth/verify-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingVerifyEmail, code })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Invalid code');
-
-      document.getElementById('verify-modal').style.display = 'none';
-      document.getElementById('step-' + currentStep).classList.remove('active');
-      document.getElementById('step-2').classList.add('active');
-      updateDots(2);
-      currentStep = 2;
-
-    } catch (err) {
-      document.getElementById('verify-error').textContent = err.message;
-      document.getElementById('verify-error').style.display = 'block';
-      btn.textContent = 'Verify Email →';
-      btn.disabled = false;
-      ['c1','c2','c3','c4','c5','c6'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('c1').focus();
-    }
-  }
-
-  async function resendCode(e) {
-    e.preventDefault();
-    try {
-      await fetch(`${API}/api/auth/resend-verification`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingVerifyEmail })
-      });
-      document.getElementById('verify-error').textContent = 'New code sent!';
-      document.getElementById('verify-error').style.color = '#4ecca3';
-      document.getElementById('verify-error').style.display = 'block';
-    } catch(e) {}
-  }
-
-  // ── LAUNCH APP ───────────────────────────────────
   function launchApp() {
     document.body.style.transition = 'opacity 0.5s';
     document.body.style.opacity = '0';
-    setTimeout(() => {
-      window.location.href = 'app.html';
-    }, 500);
+    setTimeout(() => { window.location.href = 'app.html'; }, 500);
   }
 </script>
 
-<!-- EMAIL VERIFICATION MODAL -->
-
-<div id="verify-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#12121a;border:1px solid #2a2a3d;border-radius:24px;max-width:400px;width:100%;padding:40px 32px;text-align:center;">
-    <div style="font-size:40px;margin-bottom:16px;">📧</div>
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e8c547;font-weight:600;margin-bottom:12px;">Verify Your Email</div>
-    <h2 style="font-family:'Playfair Display',serif;font-size:24px;margin-bottom:12px;">Check your inbox</h2>
-    <p style="color:#6b6b8a;font-size:14px;margin-bottom:24px;line-height:1.6;">We sent a 6-digit code to <strong id="verify-email-display" style="color:#f0f0f8;"></strong></p>
-
-```
-<div style="display:flex;gap:8px;justify-content:center;margin-bottom:24px;">
-  <input type="text" maxlength="1" class="code-input" id="c1" oninput="codeNext(this,'c2')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-  <input type="text" maxlength="1" class="code-input" id="c2" oninput="codeNext(this,'c3')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-  <input type="text" maxlength="1" class="code-input" id="c3" oninput="codeNext(this,'c4')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-  <input type="text" maxlength="1" class="code-input" id="c4" oninput="codeNext(this,'c5')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-  <input type="text" maxlength="1" class="code-input" id="c5" oninput="codeNext(this,'c6')" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-  <input type="text" maxlength="1" class="code-input" id="c6" oninput="codeNext(this,null)" style="width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;background:#1a1a26;border:2px solid #2a2a3d;border-radius:10px;color:#f0f0f8;font-family:'DM Sans',sans-serif;">
-</div>
-
-<div id="verify-error" style="color:#ff6b6b;font-size:13px;margin-bottom:16px;display:none;"></div>
-
-<button id="verify-btn" onclick="verifyCode()" style="width:100%;background:#e8c547;color:#0a0a0f;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:16px;">
-  Verify Email →
-</button>
-
-<p style="color:#6b6b8a;font-size:13px;">
-  Didn't receive it? 
-  <a href="#" onclick="resendCode(event)" style="color:#e8c547;text-decoration:none;">Resend code</a>
-</p>
-```
-
-  </div>
-</div>
 </body>
 </html>
